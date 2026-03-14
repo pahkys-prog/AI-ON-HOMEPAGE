@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Signup.css";
 
 import logo from "../assets/images/Logo-AION.png";
@@ -39,7 +39,7 @@ export default function Signup() {
   return (
     <div className="signup-container">
       <div className="signup-card">
-        <img src={logo} className="signup-logo" />
+        <img src={logo} className="signup-logo" alt="AI-ON 로고" />
 
         <h2 className="signup-title">회원가입</h2>
 
@@ -92,7 +92,7 @@ export default function Signup() {
 
         <button className="google-button">Google로 시작하기</button>
 
-        <div className="signup-footer">이미 계정이 있으신가요? 로그인</div>
+        <div className="signup-footer">이미 계정이 있으신가요? <Link to="/login">로그인</Link> </div>
       </div>
     </div>
   );
