@@ -1,25 +1,19 @@
-import Header from "./components/Header"
-import About from "./components/About"
-import Business from "./components/Business"
-import Join from "./components/Join"
-import Contact from "./components/Contact"
-import Gallery from "./components/Gallery"
-import Footer from "./components/Footer"
-
-import "./App.css"
+import { Routes, Route } from "react-router-dom";
+import Header from "./components/Header/Header";
+import Signup from "./pages/Signup";
+import Welcome from "./pages/Welcome";
 
 function App() {
   return (
     <>
       <Header />
-      <About />
-      <Business />
-      <Join />
-      <Contact />
-      <Gallery />
-      <Footer />
+
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/welcome" element={<Welcome />} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
