@@ -4,13 +4,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 0;
+  padding: 20px 0;
 }
 
 .banner-container {
   width: 100%;
   max-width: 1000px; /* 1000px 제한 */
-  height: 300px;
+  height:300px;
   position: relative; /* 화살표 배치를 위한 기준 */
   overflow: hidden; /* 배너가 쌓이지 않고 한 장만 보이게 함 */
   border-radius: 20px;
