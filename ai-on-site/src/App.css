@@ -14,6 +14,16 @@ body {
   color: #333;
   line-height: 1.6;
 }
+/* 범용적인 이름 대신 독자적인 이름을 사용합니다 */
+.layout-center {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto !important;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: block;
+}
+
 body,
 h2,
 p,
@@ -57,9 +67,10 @@ ul {
 /* 중앙 정렬 컨테이너 */
 .container {
   width: 100%;
-  max-width: 1200px; /* 배너보다 조금 더 넓게 혹은 1000px로 취향껏 조절 */
+  max-width: 1100px; /* 배너보다 조금 더 넓게 혹은 1000px로 취향껏 조절 */
   margin: 0 auto; /* ✅ 왼쪽/오른쪽 여백을 똑같이 나눠 가져서 중앙으로! */
-  padding: 50px 20px; /* 모바일에서 글자가 벽에 붙지 않게 */
+  padding: 80px 20px; /* 모바일에서 글자가 벽에 붙지 않게 */
+  box-sizing: border-box;
 }
 
 /* 각 섹션 사이의 간격을 넉넉히 줍니다 */
