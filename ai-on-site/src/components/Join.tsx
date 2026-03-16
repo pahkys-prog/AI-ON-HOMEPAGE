@@ -12,5 +12,4 @@ function Join() {
     </section>
   )
 }
-
 export default Join
