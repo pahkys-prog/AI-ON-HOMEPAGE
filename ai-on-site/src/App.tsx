@@ -6,7 +6,8 @@ import Login from "./pages/Login";
 import Banner from "./components/Banner/Banner";
 import About from "./components/About/About";
 import Business from "./components/Business/Business"; // ✅ 이름을 Business로 변경!
-import Contact from "./components/QnA/QnA";
+import Contact from './components/Contact/Contact';
+import QnA from "./components/QnA/QnA";
 import Gallery from "./components/Gallery/Gallery";
 import AboutDetail from './pages/AboutDetail';
 import Footer from "./components/Footer/Footer";
@@ -28,6 +29,7 @@ function App() {
               <div className="container">
                 <About />
                 <Business />
+                <QnA/>
                 <Contact />
                 <Gallery />
               </div>
@@ -40,6 +42,12 @@ function App() {
         <Route path="/about-detail" element={<AboutDetail />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/business/*" element={<Business />} />
+        <Route path="/qna" element={<QnA />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/gallery/*" element={<Gallery />} />
       </Routes>
       <Footer />
     </>

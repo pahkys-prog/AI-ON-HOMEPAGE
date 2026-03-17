@@ -34,6 +34,8 @@ export default function Footer() {
             <Link to="/privacy">개인정보처리방침</Link>
             <span className="divider">|</span>
             <Link to="/terms">이용약관</Link>
+            <span className="divider">|</span> 
+            <Link to="/operating-policy">운영정책</Link>
             <span className="divider">|</span>           
           </div>
         </div>

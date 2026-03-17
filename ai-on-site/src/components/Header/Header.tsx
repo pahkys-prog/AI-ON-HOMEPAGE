@@ -35,9 +35,9 @@ export default function Header() {
           <div className="nav-item-dropdown">
             <span className="nav-item">Business ▾</span>
             <div className="dropdown-content">
-              <Link to="/business/ai">AI Art</Link>
-              <Link to="/business/data">교육</Link>
-              <Link to="/business/consulting">출판</Link>
+              <Link to="/business" state={{ tabIndex: 0 }}>AI 도구 활용</Link>
+              <Link to="/business" state={{ tabIndex: 1 }}>디지털 콘텐츠 제작</Link>
+              <Link to="/business" state={{ tabIndex: 2 }}>기관/대상 맞춤형교육</Link>
             </div>
           </div>
 

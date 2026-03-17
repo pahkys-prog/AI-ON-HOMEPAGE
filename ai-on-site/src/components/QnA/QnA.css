@@ -157,3 +157,28 @@
   border-color: #5bb68c !important;
   font-weight: bold;
 }
+
+.helper-text {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  margin-right: 10px;
+}
+
+.status-badge.waiting { background: #eee; color: #666; }
+.status-badge.done { background: #5bb68c; color: #fff; }
+
+.answer-box {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  border-left: 3px solid #5bb68c;
+}

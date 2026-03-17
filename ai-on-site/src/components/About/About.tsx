@@ -16,15 +16,17 @@ const About = () => {
         <div className="about-text">
           <span className="sub-title">WHO WE ARE</span>
           <h2>
-            혁신적인 AI 솔루션으로
+            배움을 활용으로 바꾸는 AI 교육
             <br />
-            내일의 가치를 만듭니다.
+            맞춤형 커리큘럼 개발
           </h2>
           <p>
-            우리는 복잡한 데이터를 단순하게 만들고, 인공지능 기술을 통해
-            비즈니스의 새로운 가능성을 발견합니다. 단순한 기술 제공을 넘어
-            파트너의 성장을 함께 고민합니다.
+            AI 도구 활용, 디지털 콘텐츠 제작, 실습형 프로젝트 수업을 중심으로
+            대상과 목적에 맞는 교육 프로그램을 기획·운영합니다. 단순 체험이
+            아닌, 교육 이후에도 실제 활용이 가능한 수준까지 연결하는 것을 목표로
+            합니다.
           </p>
+
           <Link to="/about-detail">
             <button className="detail-btn">자세히 보기</button>
           </Link>
