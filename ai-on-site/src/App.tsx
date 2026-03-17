@@ -13,6 +13,8 @@ import AboutDetail from './pages/AboutDetail';
 import Footer from "./components/Footer/Footer";
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import ContactForm from "./components/Contact/ContactForm";
+import ContactList from "./components/Contact/ContactList";
 
 function App() {
   return (
@@ -48,6 +50,8 @@ function App() {
         <Route path="/qna" element={<QnA />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/gallery/*" element={<Gallery />} />
+        <Route path="/contact-form" element={<ContactForm />} />
+        <Route path="/contact-list" element={<ContactList />} />
       </Routes>
       <Footer />
     </>

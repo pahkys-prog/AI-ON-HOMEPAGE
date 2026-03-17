@@ -1,6 +1,6 @@
 /* 1. 중앙 정렬 및 폭 설정 (약관 페이지와 통일) */
-.contact-section { 
-  padding: 80px 20px; 
+.contact-section {
+  padding: 80px 20px;
   max-width: 800px; /* 폭 고정 */
   margin: 0 auto !important; /* 중앙 정렬 강제 */
   box-sizing: border-box;
@@ -44,10 +44,11 @@
   border-radius: 12px;
   margin-bottom: 50px;
   border: 1px solid #eee;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* 약간의 입체감 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* 약간의 입체감 */
 }
 
-.qa-form input, .qa-form textarea {
+.qa-form input,
+.qa-form textarea {
   width: 100%;
   padding: 12px;
   margin-bottom: 15px;
@@ -57,18 +58,36 @@
   font-family: inherit;
 }
 
-.qa-form textarea { height: 180px; resize: none; }
+.qa-form textarea {
+  height: 180px;
+  resize: none;
+}
 
 .form-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start; /* 위쪽 정렬 */
+  margin-top: 15px;
+  gap: 20px;
+}
+
+.footer-left {
+  display: flex;
+  gap: 8px;
+  flex: 1; /* 남은 공간을 차지해서 버튼을 오른쪽 끝으로 밀어줌 */
 }
 
 /* 4. 버튼 스타일 (우선순위 문제 해결) */
 .button-group {
   display: flex;
   gap: 10px;
+}
+
+.pwd-input {
+  width: 120px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 /* 기존 .qa-form button 대신 클래스별로 명확히 지정 */
@@ -92,12 +111,28 @@
   cursor: pointer;
 }
 
-.close-btn:hover { background-color: #ddd !important; }
-.submit-btn:hover { filter: brightness(0.9); }
+.button-group {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0; /* 버튼이 찌그러지지 않게 고정 */
+}
+
+.close-btn:hover {
+  background-color: #ddd !important;
+}
+.submit-btn:hover {
+  filter: brightness(0.9);
+}
 
 /* 5. 질문 목록 스타일 */
-.qa-list { margin-top: 40px; }
-.list-group { list-style: none; padding: 0; border-top: 1px solid #eee; }
+.qa-list {
+  margin-top: 40px;
+}
+.list-group {
+  list-style: none;
+  padding: 0;
+  border-top: 1px solid #eee;
+}
 .list-item {
   display: flex;
   justify-content: space-between;
@@ -105,10 +140,18 @@
   border-bottom: 1px solid #eee;
   transition: background 0.2s;
 }
-.list-item:hover { background-color: #fcfcfc; }
+.list-item:hover {
+  background-color: #fcfcfc;
+}
 
-.q-title { font-weight: 500; color: #333; }
-.q-date { font-size: 13px; color: #999; }
+.q-title {
+  font-weight: 500;
+  color: #333;
+}
+.q-date {
+  font-size: 13px;
+  color: #999;
+}
 
 /* 애니메이션 및 기타 */
 .animate-fade-in {
@@ -116,18 +159,24 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* 기존 .pagination 부분을 찾아서 아래 내용으로 덮어씌워 주세요 */
 .pagination {
   display: flex;
   justify-content: center; /* ✅ 가로축 중앙 정렬 */
-  align-items: center;     /* ✅ 세로축 중앙 정렬 */
-  gap: 12px;               /* 버튼 사이 간격 */
-  margin-top: 40px;        /* 목록과의 간격 */
-  width: 100%;             /* 부모 너비를 다 쓰도록 설정 */
+  align-items: center; /* ✅ 세로축 중앙 정렬 */
+  gap: 12px; /* 버튼 사이 간격 */
+  margin-top: 40px; /* 목록과의 간격 */
+  width: 100%; /* 부모 너비를 다 쓰도록 설정 */
 }
 
 .pagination button {
@@ -159,10 +208,11 @@
 }
 
 .helper-text {
-  font-size: 12px;
+  font-size: 11px;
   color: #888;
-  margin-top: 5px;
-  line-height: 1.4;
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-line;
 }
 
 .status-badge {
@@ -172,8 +222,14 @@
   margin-right: 10px;
 }
 
-.status-badge.waiting { background: #eee; color: #666; }
-.status-badge.done { background: #5bb68c; color: #fff; }
+.status-badge.waiting {
+  background: #eee;
+  color: #666;
+}
+.status-badge.done {
+  background: #5bb68c;
+  color: #fff;
+}
 
 .answer-box {
   background: #f9f9f9;
@@ -181,4 +237,44 @@
   border-radius: 8px;
   margin-top: 10px;
   border-left: 3px solid #5bb68c;
+}
+
+.list-item {
+  border-bottom: 1px solid #eee;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.q-main {
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* 펼쳐지는 상세 영역 */
+.q-content-area {
+  padding: 0 18px 18px 18px;
+  background-color: #fdfdfd;
+}
+
+.question-detail {
+  padding: 15px;
+  border-top: 1px dashed #eee;
+  color: #555;
+  line-height: 1.6;
+}
+
+.answer-box {
+  margin-top: 10px;
+  padding: 15px;
+  background-color: #f4fbf8; /* 연한 초록빛 배경 */
+  border-radius: 8px;
+  border-left: 4px solid #5bb68c;
+}
+
+.answer-text {
+  margin: 0;
+  color: #333;
 }

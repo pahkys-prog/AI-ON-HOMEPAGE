@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./QnA.css";
+import { db, auth } from "../../firebase"; // firebase.ts에서 db와 auth를 모두 가져옴
+import { 
+  collection, 
+  addDoc, 
+  serverTimestamp, 
+  query, 
+  orderBy, 
+  onSnapshot, 
+  doc, 
+  updateDoc 
+} from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 interface Question {
-  id: number;
+  id: string;
   title: string;
   content: string;
   isPrivate: boolean;
   password?: string;
   date: string;
+  answer?: string;
 }
 
-const Contact = () => {
+const QnA = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [title, setTitle] = useState("");
@@ -20,40 +33,91 @@ const Contact = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // 비밀번호 확인용 상태
-  const [viewingId, setViewingId] = useState<number | null>(null);
+  const [viewingId, setViewingId] = useState<string | null>(null);
   const [checkPwd, setCheckPwd] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false); // 관리자 상태
 
-  // 질문 등록
-  const handleSubmit = (e: React.FormEvent) => {
+  // ✅ 1. 관리자 로그인 상태 감시
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      // 본인의 관리자 이메일 주소로 수정하세요
+      if (user && user.email === "admin@jejuion.co.kr") {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // ✅ 2. 실시간 질문 목록 불러오기
+  useEffect(() => {
+    const q = query(collection(db, "qna"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const qnaArray: Question[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        qnaArray.push({
+          id: doc.id,
+          title: data.title,
+          content: data.content,
+          isPrivate: data.isPrivate,
+          password: data.password,
+          date: data.createdAt?.toDate().toLocaleDateString() || new Date().toLocaleDateString(),
+          answer: data.answer,
+        });
+      });
+      setQuestions(qnaArray);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // ✅ 3. 질문 등록 함수
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) return alert("제목과 내용을 입력해주세요.");
-    if (isPrivate && password.length !== 4)
-      return alert("비밀번호 4자리를 입력해주세요.");
+    if (isPrivate && password.length !== 4) return alert("비밀번호 4자리를 입력해주세요.");
 
-    const newQuestion = {
-      id: Date.now(),
-      title,
-      content,
-      isPrivate,
-      date: new Date().toLocaleDateString(),
-    };
+    try {
+      await addDoc(collection(db, "qna"), {
+        title,
+        content,
+        isPrivate,
+        password: isPrivate ? password : "",
+        createdAt: serverTimestamp(),
+        answer: "",
+        status: "waiting",
+      });
+      setTitle("");
+      setContent("");
+      setIsPrivate(false);
+      setPassword("");
+      alert("질문이 안전하게 등록되었습니다!");
+    } catch (error) {
+      console.error("Firebase 저장 에러:", error);
+    }
+  };
 
-    // ✅ 이전 리스트(prev)를 가져와서 그 앞에 새 질문을 추가합니다.
-    setQuestions((prev) => [newQuestion, ...prev]);
-
-    setTitle("");
-    setContent("");
-    setIsPrivate(false);
-    alert("질문이 등록되었습니다.");
+  // ✅ 4. 관리자 답변 등록 함수
+  const handleAdminReply = async (docId: string, replyText: string) => {
+    try {
+      const docRef = doc(db, "qna", docId);
+      await updateDoc(docRef, {
+        answer: replyText,
+        status: "done",
+      });
+      alert("답변이 등록되었습니다!");
+    } catch (error) {
+      console.error("답변 등록 에러:", error);
+    }
   };
 
   const handleItemClick = (q: Question) => {
     if (!q.isPrivate) {
-      alert(`[내용]\n${q.content}`); // 공개글은 바로 보여줌
+      alert(`[내용]\n${q.content}`);
       return;
     }
-    setViewingId(q.id); // 비밀글이면 확인 모달 띄우기
+    setViewingId(q.id);
   };
 
   const verifyPassword = () => {
@@ -67,15 +131,6 @@ const Contact = () => {
     }
   };
 
-  const handleClose = () => {
-    setTitle("");
-    setContent("");
-    setIsPrivate(false);
-    setPassword("");
-    setIsOpen(false);
-  };
-
-  // 페이지네이션 로직
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = questions.slice(indexOfFirstItem, indexOfLastItem);
@@ -90,10 +145,8 @@ const Contact = () => {
         <p className="qa-subtitle">클릭하시면 문의 창과 목록이 열립니다.</p>
       </div>
 
-      {/* ✅ isOpen이 true일 때만 입력창과 목록이 모두 나타남 */}
       {isOpen && (
         <div className="qa-container animate-fade-in">
-          {/* 1. 입력 폼 */}
           <form className="qa-form" onSubmit={handleSubmit}>
             <input
               type="text"
@@ -108,57 +161,76 @@ const Contact = () => {
               onChange={(e) => setContent(e.target.value)}
             />
             <div className="form-footer">
-              <label className="private-check">
-                <input
-                  type="checkbox"
-                  checked={isPrivate}
-                  onChange={(e) => setIsPrivate(e.target.checked)}
-                />{" "}
-                비밀글
-              </label>
-              <p className="helper-text">
-                * 비밀글 선택 시 관리자와 작성자 본인만 열람 가능합니다. 답변
-                여부는 사이트 내에서 직접 확인 부탁드립니다.
-              </p>
-              {isPrivate && (
-                <input
-                  type="password"
-                  placeholder="비밀번호 4자리"
-                  maxLength={4}
-                  className="pwd-input"
-                  value={password}
-                  onChange={(e) =>
-                    setPassword(e.target.value.replace(/[^0-9]/g, ""))
-                  }
-                />
-              )}
-
+              <div className="footer-left">
+                <label className="private-check">
+                  <input
+                    type="checkbox"
+                    checked={isPrivate}
+                    onChange={(e) => setIsPrivate(e.target.checked)}
+                  />{" "}
+                  비밀글
+                </label>
+                {isPrivate && (
+                  <input
+                    type="password"
+                    placeholder="비밀번호 4자리"
+                    maxLength={4}
+                    className="pwd-input"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value.replace(/[^0-9]/g, ""))}
+                  />
+                )}
+              </div>
               <div className="button-group">
-                <button
-                  type="button"
-                  className="close-btn"
-                  onClick={() => setIsOpen(false)}
-                >
-                  닫기
-                </button>
-                <button type="submit" className="submit-btn">
-                  등록하기
-                </button>
+                <button type="button" className="close-btn" onClick={() => setIsOpen(false)}>닫기</button>
+                <button type="submit" className="submit-btn">등록하기</button>
               </div>
             </div>
+            <p className="helper-text">
+              * 비밀글 선택 시 관리자와 작성자 본인만 열람 가능합니다.
+            </p>
           </form>
 
-          {/* 2. 질문 목록 */}
           <div className="qa-list">
             <h3 className="list-title">최근 질문 목록</h3>
             {currentItems.length > 0 ? (
               <ul className="list-group">
                 {currentItems.map((q) => (
                   <li key={q.id} className="list-item">
-                    <span className="q-title">
-                      {q.isPrivate ? "🔒 비밀글입니다." : q.title}
-                    </span>
-                    <span className="q-date">{q.date}</span>
+                    <div className="q-main" onClick={() => handleItemClick(q)}>
+                      <div>
+                        <span className={`status-badge ${q.answer ? "done" : "waiting"}`}>
+                          {q.answer ? "답변완료" : "답변대기"}
+                        </span>
+                        <span className="q-title">
+                          {q.isPrivate ? "🔒 비밀글입니다." : q.title}
+                        </span>
+                      </div>
+                      <span className="q-date">{q.date}</span>
+                    </div>
+
+                    {/* ✅ 관리자이고 답변이 아직 없을 때만 버튼 표시 */}
+                    {isAdmin && !q.answer && (
+                      <div className="admin-controls" style={{ marginTop: '10px' }}>
+                        <button 
+                          className="admin-reply-btn"
+                          style={{ backgroundColor: '#5bb68c', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const reply = prompt("운영자 답변을 입력하세요:");
+                            if (reply) handleAdminReply(q.id, reply);
+                          }}
+                        >
+                          답변달기
+                        </button>
+                      </div>
+                    )}
+
+                    {q.answer && (
+                      <div className="answer-preview" style={{ marginTop: '10px', background: '#f9f9f9', padding: '10px' }}>
+                        <p>ㄴ Re: {q.answer}</p>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -166,49 +238,6 @@ const Contact = () => {
               <p className="no-data">등록된 질문이 없습니다.</p>
             )}
 
-            <div className="qna-item">
-              <div className="question">
-                {/* ✅ 답변 상태 표시 */}
-                <span
-                  className={`status-badge ${item.answer ? "done" : "waiting"}`}
-                >
-                  {item.answer ? "답변완료" : "답변대기"}
-                </span>
-                {item.title}
-              </div>
-
-              {/* ✅ 답변이 있을 때만 노출 */}
-              {item.answer && (
-                <div className="answer-box">
-                  <p className="answer-content">ㄴ Re: {item.answer}</p>
-                </div>
-              )}
-            </div>
-
-            {/* ✅ 비밀번호 확인 모달 (viewingId가 있을 때만 표시) */}
-            {viewingId && (
-              <div className="modal-overlay">
-                <div className="pwd-modal">
-                  <h4>비밀번호 확인</h4>
-                  <p>작성 시 설정한 숫자 4자리를 입력하세요.</p>
-                  <input
-                    type="password"
-                    maxLength={4}
-                    value={checkPwd}
-                    onChange={(e) => setCheckPwd(e.target.value)}
-                    autoFocus
-                  />
-                  <div className="modal-btns">
-                    <button onClick={() => setViewingId(null)}>취소</button>
-                    <button className="confirm-btn" onClick={verifyPassword}>
-                      확인
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* 페이지네이션 */}
             {totalPages > 1 && (
               <div className="pagination">
                 {Array.from({ length: totalPages }, (_, i) => (
@@ -225,8 +254,28 @@ const Contact = () => {
           </div>
         </div>
       )}
+
+      {viewingId && (
+        <div className="modal-overlay">
+          <div className="pwd-modal">
+            <h4>비밀번호 확인</h4>
+            <p>작성 시 설정한 숫자 4자리를 입력하세요.</p>
+            <input
+              type="password"
+              maxLength={4}
+              value={checkPwd}
+              onChange={(e) => setCheckPwd(e.target.value)}
+              autoFocus
+            />
+            <div className="modal-btns">
+              <button onClick={() => setViewingId(null)}>취소</button>
+              <button className="confirm-btn" onClick={verifyPassword}>확인</button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
 
-export default Contact;
+export default QnA;

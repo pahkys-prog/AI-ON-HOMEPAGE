@@ -15,8 +15,6 @@ const Business = () => {
       setActiveTab(location.state.tabIndex);
     }
   }, [location.state]);
-  
-  const [activeTab, setActiveTab] = useState(0);
 
   const businessData = [
     {

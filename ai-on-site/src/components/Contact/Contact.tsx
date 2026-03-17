@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './Contact.css';
+// ContactForm.tsx (예시)
+import { db } from "../../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
+const handleContactSubmit = async (formData) => {
+  try {
+    await addDoc(collection(db, "contacts"), {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+      createdAt: serverTimestamp(),
+    });
+    alert("문의사항이 접수되었습니다. 곧 연락드리겠습니다!");
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
 const Contact = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
