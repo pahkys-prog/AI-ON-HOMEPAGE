@@ -1,156 +1,113 @@
 import React, { useState, useEffect } from "react";
 import { db, auth, googleProvider } from "../../firebase";
-import { 
-  collection, 
-  query, 
-  orderBy, 
-  onSnapshot, 
-  doc, 
-  updateDoc // ✅ 업데이트를 위해 추가
+import {
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
-import { signInWithPopup } from "firebase/auth";
-
+import { signInWithPopup, onAuthStateChanged } from "firebase/auth";
 
 const ContactList = () => {
-  interface Contact {
-  id: string;
-  email?: string;
-  message?: string;
-  name: string;    
-  phone: string;   
-  status: string;
-  createdAt?: any;  
-}
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [contacts, setContacts] = useState<any[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(
+    "확인 중...",
+  );
 
-const handleGoogleLogin = async () => {
-  try {
-    // 팝업창 띄우기 (이게 실행되면 구글 창이 떠야 합니다)
-    const result = await signInWithPopup(auth, googleProvider);
-    console.log("로그인 성공:", result.user.email);
-    alert("로그인에 성공했습니다!");
-    window.location.reload(); 
-  } catch (error: any) {
-    console.error("에러 상세:", error);
-    // 에러 코드가 'auth/operation-not-allowed'라면 콘솔 설정 문제
-    // 'auth/popup-blocked'라면 브라우저 팝업 차단 문제
-    alert(`로그인 실패: ${error.code}`); 
-  }
-};
+  // 1. 구글 로그인 함수
+  const handleGoogleLogin = async () => {
+    try {
+      console.log("로그인 시도...");
+      await signInWithPopup(auth, googleProvider);
+      alert("로그인 성공!");
+    } catch (error: any) {
+      console.error("로그인 에러:", error);
+      alert("로그인에 실패했습니다. 팝업 차단 여부를 확인해주세요.");
+    }
+  };
 
-  // 1. 관리자 체크
-  const [currentUserEmail, setCurrentUserEmail] = useState<string | null>("로그인 안됨");
-
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("로그인 탐지됨:", user.email);
-      setCurrentUserEmail(user.email); // 현재 로그인된 이메일을 상태에 저장
-
-      //  아래 "본인이 등록한 메일"을 정확하게 입력하세요!
-      if (user.email === "운영자님의@이메일.com") { 
-        setIsAdmin(true);
+  // 2. 로그인 상태 감시 및 관리자 체크
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUserEmail(user.email);
+        // 🔴 아래 "본인이 로그인할 이메일"로 반드시 수정하세요!
+        if (user.email === "운영자님의@이메일.com") {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
       } else {
+        setCurrentUserEmail("로그아웃 상태");
         setIsAdmin(false);
       }
-    } else {
-      setCurrentUserEmail("로그아웃 상태");
-      setIsAdmin(false);
-    }
-  });
-  return () => unsubscribe();
-}, []);
+    });
+    return () => unsubscribe();
+  }, []);
 
-  // 2. 문의 목록 실시간 가져오기
+  // 3. 문의 데이터 실시간 수신
   useEffect(() => {
-    if (!isAdmin) return ;
-
+    if (!isAdmin) return;
     const q = query(collection(db, "contacts"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setContacts(data);
     });
     return () => unsubscribe();
   }, [isAdmin]);
 
-  // ✅ 3. 문의 확인 완료 처리 함수 (꿀팁 로직)
+  // 4. 확인 완료 처리
   const markAsDone = async (id: string) => {
     try {
-      const docRef = doc(db, "contacts", id);
-      await updateDoc(docRef, {
-        status: "done" // 상태를 완료로 변경
-      });
-      alert("문의 확인 처리가 완료되었습니다.");
+      await updateDoc(doc(db, "contacts", id), { status: "done" });
+      alert("완료 처리되었습니다.");
     } catch (error) {
-      console.error("업데이트 에러:", error);
-      alert("상태 변경에 실패했습니다.");
+      alert("변경 실패");
     }
   };
 
+  // --- 화면 렌더링 ---
   if (!isAdmin) {
-  return (
-    <div style={{ padding: '50px', textAlign: 'center' }}>
-      <h2>출입 제한 구역 🔒</h2>
-      <p>현재 접속 계정: <strong style={{ color: 'blue' }}>{currentUserEmail}</strong></p>
-      <p>이 계정은 관리자 목록에 없습니다.</p>
-      <button onClick={() => window.location.href='/login'}>다른 계정으로 로그인</button>
-    </div>
-  );
-}
+    return (
+      <div style={{ padding: "50px", textAlign: "center" }}>
+        <h2>관리자 로그인 🔒</h2>
+        <p>현재 계정: {currentUserEmail}</p>
+        <button
+          onClick={handleGoogleLogin}
+          style={{ padding: "10px 20px", cursor: "pointer" }}
+        >
+          구글 로그인
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="admin-contact-list" style={{ padding: '20px' }}>
-      <h3> 도착한 문의 목록</h3>
-      {contacts.length > 0 ? (
-        contacts.map((c: ContactItem) => (
-          <div 
-            key={c.id} 
-            style={{ 
-              border: '1px solid #ddd', 
-              margin: '10px 0', 
-              padding: '15px',
-              borderRadius: '8px',
-              backgroundColor: c.status === "done" ? "#f9f9f9" : "#fff", // 완료된 건 연하게 표시
-              opacity: c.status === "done" ? 0.7 : 1
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <p><strong>보낸이:</strong> {c.name} ({c.phone})</p>
-                <p><strong>내용:</strong> {c.message}</p>
-                <p style={{ fontSize: '12px', color: '#888' }}>
-                  접수일: {c.createdAt?.toDate().toLocaleString()}
-                </p>
-              </div>
-
-              {/* ✅ 확인 버튼: 아직 완료되지 않은 경우에만 표시 */}
-              {c.status !== "done" ? (
-                <button 
-                  onClick={handleGoogleLogin}
-                  style={{
-                    backgroundColor: '#5bb68c',
-                    color: 'white',
-                    border: 'none',
-                    padding: '8px 12px',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  확인 완료하기
-                </button>
-              ) : (
-                <span style={{ color: '#5bb68c', fontWeight: 'bold' }}>✓ 확인됨</span>
-              )}
-            </div>
-          </div>
-        ))
-      ) : (
-        <p>도착한 문의가 없습니다.</p>
-      )}
+    <div style={{ padding: "20px" }}>
+      <h3>📩 문의 목록</h3>
+      {contacts.map((c) => (
+        <div
+          key={c.id}
+          style={{
+            border: "1px solid #ddd",
+            padding: "15px",
+            marginBottom: "10px",
+          }}
+        >
+          <p>
+            <strong>{c.name}</strong> ({c.phone})
+          </p>
+          <p>{c.message}</p>
+          {c.status !== "done" ? (
+            <button onClick={() => markAsDone(c.id)}>확인 완료</button>
+          ) : (
+            <span style={{ color: "green" }}>✓ 확인됨</span>
+          )}
+        </div>
+      ))}
     </div>
   );
 };
