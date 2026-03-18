@@ -1,19 +1,20 @@
-// src/firebase.ts
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: "AIzaSyAUJOMiDB2DW5FamQLOyi0gTanDQ5ywAe4",
+  authDomain: "ai-on-hompage.firebaseapp.com",
+  projectId: "ai-on-hompage",
+  storageBucket: "ai-on-hompage.firebasestorage.app",
+  messagingSenderId: "125679313264",
+  appId: "1:125679313264:web:8669c6699d141e6c268846"
 };
 
-// ✅ 이미 초기화된 앱이 있으면 그것을 쓰고, 없으면 새로 초기화합니다.
+// ✅ 이미 앱이 실행 중이면 기존 것을 쓰고, 없으면 새로 만듭니다 (중복 방지)
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
+// 도구들 내보내기
 export const db = getFirestore(app);
-export const auth = getAuth(app); // 나중에 운영자 로그인을 위해 추가해두었습니다.
+export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();

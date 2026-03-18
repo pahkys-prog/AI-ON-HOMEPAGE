@@ -151,11 +151,13 @@ const QnA = () => {
             <input
               type="text"
               placeholder="질문 제목을 입력하세요"
+              aria-label="질문 제목"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
             <textarea
               placeholder="질문 내용을 입력하세요 (최대 1200자)"
+              aria-label="질문 내용"
               maxLength={1200}
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -174,6 +176,7 @@ const QnA = () => {
                   <input
                     type="password"
                     placeholder="비밀번호 4자리"
+                    aria-label="비밀글 비밀번호"
                     maxLength={4}
                     className="pwd-input"
                     value={password}
@@ -262,6 +265,7 @@ const QnA = () => {
             <p>작성 시 설정한 숫자 4자리를 입력하세요.</p>
             <input
               type="password"
+              aria-label="비밀번호 확인 입력"
               maxLength={4}
               value={checkPwd}
               onChange={(e) => setCheckPwd(e.target.value)}

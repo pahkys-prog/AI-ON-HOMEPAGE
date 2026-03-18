@@ -51,7 +51,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/gallery/*" element={<Gallery />} />
         <Route path="/contact-form" element={<ContactForm />} />
-        <Route path="/contact-list" element={<ContactList />} />
+        <Route path="/admin/contacts" element={<ContactList />} />
       </Routes>
       <Footer />
     </>

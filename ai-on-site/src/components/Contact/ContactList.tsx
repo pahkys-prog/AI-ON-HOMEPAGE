@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db, auth } from "../../firebase";
+import { db, auth, googleProvider } from "../../firebase";
 import { 
   collection, 
   query, 
@@ -8,26 +8,63 @@ import {
   doc, 
   updateDoc // ✅ 업데이트를 위해 추가
 } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
+
 
 const ContactList = () => {
-  const [contacts, setContacts] = useState([]);
+  interface Contact {
+  id: string;
+  email?: string;
+  message?: string;
+  name: string;    
+  phone: string;   
+  status: string;
+  createdAt?: any;  
+}
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
 
+const handleGoogleLogin = async () => {
+  try {
+    // 팝업창 띄우기 (이게 실행되면 구글 창이 떠야 합니다)
+    const result = await signInWithPopup(auth, googleProvider);
+    console.log("로그인 성공:", result.user.email);
+    alert("로그인에 성공했습니다!");
+    window.location.reload(); 
+  } catch (error: any) {
+    console.error("에러 상세:", error);
+    // 에러 코드가 'auth/operation-not-allowed'라면 콘솔 설정 문제
+    // 'auth/popup-blocked'라면 브라우저 팝업 차단 문제
+    alert(`로그인 실패: ${error.code}`); 
+  }
+};
+
   // 1. 관리자 체크
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      // 본인의 관리자 이메일 주소와 일치하는지 확인
-      if (user && user.email === "admin@jejuion.co.kr") {
+  const [currentUserEmail, setCurrentUserEmail] = useState<string | null>("로그인 안됨");
+
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("로그인 탐지됨:", user.email);
+      setCurrentUserEmail(user.email); // 현재 로그인된 이메일을 상태에 저장
+
+      //  아래 "본인이 등록한 메일"을 정확하게 입력하세요!
+      if (user.email === "운영자님의@이메일.com") { 
         setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
       }
-    });
-    return () => unsubscribe();
-  }, []);
+    } else {
+      setCurrentUserEmail("로그아웃 상태");
+      setIsAdmin(false);
+    }
+  });
+  return () => unsubscribe();
+}, []);
 
   // 2. 문의 목록 실시간 가져오기
   useEffect(() => {
-    if (!isAdmin) return;
+    if (!isAdmin) return ;
 
     const q = query(collection(db, "contacts"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -54,13 +91,22 @@ const ContactList = () => {
     }
   };
 
-  if (!isAdmin) return <p style={{ padding: '20px' }}>관리자만 접근 가능합니다.</p>;
+  if (!isAdmin) {
+  return (
+    <div style={{ padding: '50px', textAlign: 'center' }}>
+      <h2>출입 제한 구역 🔒</h2>
+      <p>현재 접속 계정: <strong style={{ color: 'blue' }}>{currentUserEmail}</strong></p>
+      <p>이 계정은 관리자 목록에 없습니다.</p>
+      <button onClick={() => window.location.href='/login'}>다른 계정으로 로그인</button>
+    </div>
+  );
+}
 
   return (
     <div className="admin-contact-list" style={{ padding: '20px' }}>
-      <h3>📩 도착한 문의 목록</h3>
+      <h3> 도착한 문의 목록</h3>
       {contacts.length > 0 ? (
-        contacts.map((c: any) => (
+        contacts.map((c: ContactItem) => (
           <div 
             key={c.id} 
             style={{ 
@@ -84,7 +130,7 @@ const ContactList = () => {
               {/* ✅ 확인 버튼: 아직 완료되지 않은 경우에만 표시 */}
               {c.status !== "done" ? (
                 <button 
-                  onClick={() => markAsDone(c.id)}
+                  onClick={handleGoogleLogin}
                   style={{
                     backgroundColor: '#5bb68c',
                     color: 'white',
