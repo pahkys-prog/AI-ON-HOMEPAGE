@@ -1,0 +1,53 @@
+.gallery-section {
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.frame-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+.frame-wrapper {
+  position: relative; /* 자식인 gif-inside의 기준점 */
+  width: 350px;       /* 액자 크기에 맞게 조절 */
+  height: 500px
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.frame-wrapper:hover {
+  transform: translateY(-10px) rotate(2deg); /* 마우스 올리면 살짝 들리는 효과 */
+}
+
+.frame-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  z-index: 2; /* 액자가 GIF보다 위에 있도록 설정 (또는 반대로) */
+  position: relative;
+}
+
+/* 액자 내부 GIF 위치 잡기 */
+.gif-inside {
+  position: absolute;
+  top: 15%;    /* 앤틱 액자의 두께에 따라 미세 조정하세요 */
+  left: 12%;   /* 앤틱 액자의 두께에 따라 미세 조정하세요 */
+  width: 76%;  /* 액자 안쪽 너비 */
+  height: 70%; /* 액자 안쪽 높이 */
+  overflow: hidden;
+  z-index: 1;  /* 액자 안으로 쏙 들어가게 함 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000; /* GIF 로딩 전 검은 배경 */
+}
+
+.art-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 프레임 꽉 차게 */
+}

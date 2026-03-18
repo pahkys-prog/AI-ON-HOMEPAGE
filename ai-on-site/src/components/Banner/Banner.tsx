@@ -2,11 +2,11 @@ import { useState, useEffect, useCallback } from "react";
 import "./Banner.css"; // 같은 폴더에 Banner.css 파일을 만드세요!
 
 const bannerData = [
-  { id: 1, title: "AI-ON 첫 번째 서비스", color: "#3b82f6" },
-  { id: 2, title: "스마트한 미래를 함께하세요", color: "#a855f7" },
-  { id: 3, title: "파이널 프로젝트 복습 중", color: "#10b981" },
-  { id: 4, title: "쉽고 빠른 AI 솔루션", color: "#ef7b27" },
-  { id: 5, title: "지금 바로 시작하세요", color: "#f43f5e" },
+  { id: 1, title: "AI-ON 첫 번째 서비스", type: "image", url: "/banner-1.png" },
+  { id: 2, title: "스마트한 미래를 함께하세요", type: "image", url: "/banner-2.png" },
+  { id: 3, title: "파이널 프로젝트 복습 중", type: "video", url: "/banner-3.mp4" },
+  { id: 4, title: "쉽고 빠른 AI 솔루션", type: "image", url: "/banner-4.png" },
+  { id: 5, title: "지금 바로 시작하세요", type: "image", url: "/banner-5.png" },
 ];
 
 const snsData = [
@@ -15,7 +15,7 @@ const snsData = [
     name: "Instagram",
     img: "src/assets/icons/icon-instagram.png",
     color: "#63439F",
-    link: "https://blog.naver.com",
+    link: "https://www.instagram.com/jeju_ai_on/",
   }, 
   {
     id: 2,
@@ -36,7 +36,7 @@ const snsData = [
     name: "YouTube",
     img: "src/assets/icons/icon-youtube.png",
     color: "#db3e24",
-    link: "https://youtube.com",
+    link: "https://www.youtube.com/@제주디지털on연구소",
   },
   {
     id: 5,
