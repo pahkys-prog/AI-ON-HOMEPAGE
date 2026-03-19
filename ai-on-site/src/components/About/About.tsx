@@ -28,7 +28,7 @@ const About = () => {
           </p>
 
           <Link to="/about-detail">
-            <button className="detail-btn">자세히 보기</button>
+            <button className="detail-btn">더보기</button>
           </Link>
         </div>
       </div>

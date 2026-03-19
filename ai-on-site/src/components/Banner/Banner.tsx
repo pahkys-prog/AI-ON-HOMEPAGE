@@ -2,11 +2,11 @@ import { useState, useEffect, useCallback } from "react";
 import "./Banner.css"; // 같은 폴더에 Banner.css 파일을 만드세요!
 
 const bannerData = [
-  { id: 1, title: "AI-ON 첫 번째 서비스", type: "image", url: "/banner-1.png" },
-  { id: 2, title: "스마트한 미래를 함께하세요", type: "image", url: "/banner-2.png" },
-  { id: 3, title: "파이널 프로젝트 복습 중", type: "video", url: "/banner-3.mp4" },
-  { id: 4, title: "쉽고 빠른 AI 솔루션", type: "image", url: "/banner-4.png" },
-  { id: 5, title: "지금 바로 시작하세요", type: "image", url: "/banner-5.png" },
+  { id: 1, type: "video", url: "/banner-1.mp4" },
+  { id: 2, type: "image", url: "/banner-2.png" },
+  { id: 3, type: "image", url: "/banner-3.png" },
+  { id: 4, type: "image", url: "/banner-4.png" },
+  { id: 5, type: "image", url: "/banner-5.png" },
 ];
 
 const snsData = [
@@ -16,14 +16,14 @@ const snsData = [
     img: "src/assets/icons/icon-instagram.png",
     color: "#63439F",
     link: "https://www.instagram.com/jeju_ai_on/",
-  }, 
+  },
   {
     id: 2,
     name: "Blog",
     img: "src/assets/icons/icon-blog.png",
     color: "#F4D02D",
     link: "https://blog.naver.com",
-  }, 
+  },
   {
     id: 3,
     name: "Cafe",
@@ -44,14 +44,14 @@ const snsData = [
     img: "src/assets/icons/icon-X.png",
     color: "#0b1c36",
     link: "https://x.com",
-  }, 
+  },
   {
     id: 6,
     name: "Location",
     img: "src/assets/icons/icon-location.png",
     color: "#3766b0",
-    link: "/map",
-  }, 
+    link: "https://map.naver.com/p/entry/place/2070346762?placePath=/home?entry=plt&from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603182248&locale=ko&svcName=map_pcv5&searchType=place&lng=126.5266586&lat=33.5152458&c=15.00,0,0,0,dh",
+  },
 ];
 
 const Banner = () => {
@@ -71,7 +71,7 @@ const Banner = () => {
 
     const timer = setInterval(() => {
       nextSlide();
-    }, 3000);
+    }, 8000);
     return () => clearInterval(timer);
   }, [nextSlide, isPaused]);
 
@@ -91,12 +91,23 @@ const Banner = () => {
           style={{ transform: `translateX(-${current * 100}%)` }}
         >
           {bannerData.map((banner) => (
-            <div
-              key={banner.id}
-              className="banner-item"
-              style={{ backgroundColor: banner.color }}
-            >
-              <h2>{banner.title}</h2>
+            <div key={banner.id} className="banner-item">
+              {banner.type === "video" ? (
+                <video
+                  src={banner.url}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="banner-media"
+                />
+              ) : (
+                <img
+                  src={banner.url}
+                  alt={banner.title}
+                  className="banner-media"
+                />
+              )}
             </div>
           ))}
         </div>
