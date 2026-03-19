@@ -15,10 +15,10 @@ const AboutDetail = () => {
       {/* 1. 헤드라인 섹션 */}
       <header className="about-header">
         <p className="sub-title">AI·디지털 교육의 파트너</p>
-        <h1 className="main-headline">
+        <h2 className="main-headline">
           기관과 현장에서 바로 활용 가능한 <br />
           <span>AI·디지털 교육</span>을 제공합니다.
-        </h1>
+        </h2>
       </header>
 
       {/* 2. 교육 철학 (우리는 이런 교육을 합니다) */}

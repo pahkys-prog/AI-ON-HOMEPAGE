@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import React from "react";
 import "./Footer.css";
 
 export default function Footer() {
@@ -15,28 +16,35 @@ export default function Footer() {
 
           <div className="footer-contact-grid">
             <div className="info-group">
-              <p><strong>대표자</strong> 강수정</p>
-              <p><strong>사업자등록번호</strong> 160-81-03287</p>
+              <p>
+                <strong>대표</strong> 강수정
+              </p>
+              <p>
+                <strong>사업자등록번호</strong> 160-81-03287
+              </p>
             </div>
             <div className="info-group">
-              <p><strong>주소</strong> 제주특별자치도 제주시 관덕로 15길 23, 401호</p>
-              <p><strong>Tel</strong> 010-9839-6655</p>
+              <p>
+                <strong>주소</strong> 제주특별자치도 제주시 관덕로 15길 23,
+                401호
+              </p>
+              <p>
+                <strong>Tel</strong> 010-9839-6655
+              </p>
             </div>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p className="footer-copy">
-            © 2026 JEJU AI ON. All rights reserved.
-          </p>
+          <p className="footer-copy">© 2026 JEJU AI ON. All rights reserved.</p>
           <div className="footer-links">
             {/* ✅ 가상 페이지로 연결되는 Link 컴포넌트 */}
             <Link to="/privacy">개인정보처리방침</Link>
             <span className="divider">|</span>
             <Link to="/terms">이용약관</Link>
-            <span className="divider">|</span> 
-            <Link to="/operating-policy">운영정책</Link>
-            <span className="divider">|</span>           
+            <span className="divider">|</span>
+            <Link to="/FooterPolicy">운영정책</Link>
+            <span className="divider">|</span>
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ import Footer from "./components/Footer/Footer";
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import ContactForm from "./components/Contact/ContactForm";
-import ContactList from "./components/Contact/ContactList";
+import ContactList from './components/Contact/ContactList';
 
 function App() {
   return (
