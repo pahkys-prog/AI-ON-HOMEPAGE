@@ -9,7 +9,7 @@
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 80px; /* 이미지와 텍스트 사이 간격 */
+  gap: 20px; /* 이미지와 텍스트 사이 간격 */
 }
 
 .about-image {
@@ -18,11 +18,11 @@
 }
 
 .about-image img {
-  width: 100%;
+  width: 60%;
   border-radius: 20px;
   z-index: 2;
   position: relative;
-  box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.05);
+  
 }
 
 /* 이미지 뒤에 살짝 보이는 배경 장식 */
@@ -32,7 +32,7 @@
   left: -20px;
   width: 100px;
   height: 100px;
-  background-color: #03c75a; /* 로고 색상 */
+ 
   border-radius: 15px;
   z-index: 1;
 }

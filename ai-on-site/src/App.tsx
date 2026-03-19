@@ -15,7 +15,9 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import ContactForm from "./components/Contact/ContactForm";
 import ContactList from './components/Contact/ContactList';
-
+import GalleryArt from './pages/GalleryArt';
+import GalleryMovie from './pages/GalleryMovie.tsx'; // .tsx 추가
+import GalleryEdu from './pages/GalleryEdu.tsx';     // .tsx 추가
 function App() {
   return (
     // ✅ Router(BrowserRouter)가 Routes 전체를 감싸고 있어야 페이지 이동이 작동합니다.
@@ -23,36 +25,36 @@ function App() {
       <Header />
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Banner />
-              <div className="container">
-                <About />
-                <Business />
-                <QnA/>
-                <Contact />
-                <Gallery />
-              </div>
-            </>
-          }
-        />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/welcome" element={<Welcome />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/about-detail" element={<AboutDetail />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/business/*" element={<Business />} />
-        <Route path="/qna" element={<QnA />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/gallery/*" element={<Gallery />} />
-        <Route path="/contact-form" element={<ContactForm />} />
-        <Route path="/admin/contacts" element={<ContactList />} />
-      </Routes>
+  {/* 메인 페이지 (스크롤해서 보는 전체 섹션) */}
+  <Route path="/" element={
+    <>
+      <Banner />
+      <div className="container">
+        <About />
+        <Business />
+        <QnA/>
+        <Contact />
+        <Gallery /> {/* 메인에 포함된 갤러리 섹션 */}
+      </div>
+    </>
+  } />
+
+  {/* 독립된 갤러리 상세 페이지들 - 이 순서가 중요합니다! */}
+  {/* 절대 경로로 확실하게 잡아줍니다. */}
+  <Route path="/gallery/art" element={<GalleryArt />} />
+  <Route path="/gallery/movie" element={<GalleryMovie />} />
+  <Route path="/gallery/edu" element={<GalleryEdu />} />
+
+  {/* 나머지 페이지들 */}
+  <Route path="/signup" element={<Signup />} />
+  <Route path="/welcome" element={<Welcome />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/about-detail" element={<AboutDetail />} />
+  <Route path="/privacy" element={<Privacy />} />
+  <Route path="/terms" element={<Terms />} />
+  <Route path="/contact-form" element={<ContactForm />} />
+  <Route path="/admin/contacts" element={<ContactList />} />
+</Routes>
       <Footer />
     </>
   );

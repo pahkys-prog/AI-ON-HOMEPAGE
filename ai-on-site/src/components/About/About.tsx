@@ -1,4 +1,5 @@
 import React from "react";
+import subLogo from '../../assets/images/subLogo.png';
 import "./About.css";
 import { Link } from "react-router-dom";
 
@@ -8,8 +9,8 @@ const About = () => {
       <div className="about-container">
         {/* 왼쪽: 이미지 영역 */}
         <div className="about-image">
-          <img src="/about-img.jpg" alt="Company Introduction" />
-          <div className="image-deco-box"></div> {/* 디자인 포인트용 박스 */}
+          <img src={subLogo} alt="Company Introduction subLogo" />
+          <div className="subLogo"></div> {/* 디자인 포인트용 박스 */}
         </div>
 
         {/* 오른쪽: 텍스트 영역 */}

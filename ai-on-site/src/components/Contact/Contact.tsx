@@ -59,24 +59,35 @@ const Contact = () => {
       
       {/* 클릭해서 열렸을 때만 보이는 폼 */}
       {isOpen && (
-        <div className="contact-container animate-fade-in">
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <input type="text" placeholder="기관명 또는 성함을 입력하세요" required />
-            <input type="email" placeholder="답변받으실 이메일 주소를 입력하세요" required />
-            <textarea 
-              placeholder="문의하실 내용을 입력하세요 (교육 대상, 인원, 예상 일정 등)" 
-              maxLength={1200}
-            />
-            
-            <div className="contact-form-footer">
-              <div className="contact-button-group">
-                <button type="button" className="c-close-btn" onClick={() => setIsOpen(false)}>닫기</button>
-                <button type="submit" className="c-submit-btn">문의 보내기</button>
-              </div>
-            </div>
-          </form>
+  <div className="contact-container animate-fade-in">
+    {/* 추가된 상단 안내 섹션 */}
+    <div className="contact-info-header">
+      <p>궁금하신 점이 있다면 언제든 문의해 주세요.</p>
+      <div className="info-details">
+        <span><strong>Email.</strong> echomuse78@gmail.com</span><br />
+        <span><strong>Tel.</strong> 010-9839-6655
+        </span><br />
+        <span><strong>Time.</strong> 평일 09:00 ~ 18:00</span>
+      </div>
+    </div>
+
+    <form className="contact-form" onSubmit={handleSubmit}>
+      <input type="text" placeholder="기관명 또는 성함을 입력하세요" required />
+      <input type="email" placeholder="답변받으실 이메일 주소를 입력하세요" required />
+      <textarea 
+        placeholder="문의하실 내용을 입력하세요 (교육 대상, 인원, 예상 일정 등)" 
+        maxLength={1200}
+      />
+      
+      <div className="contact-form-footer">
+        <div className="contact-button-group">
+          <button type="button" className="c-close-btn" onClick={() => setIsOpen(false)}>닫기</button>
+          <button type="submit" className="c-submit-btn">문의 보내기</button>
         </div>
-      )}
+      </div>
+    </form>
+  </div>
+)}
     </section>
   );
 };
