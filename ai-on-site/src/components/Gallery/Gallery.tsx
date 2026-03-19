@@ -3,8 +3,8 @@ import frame2 from "../../assets/images/frame-2.png";
 import frame3 from "../../assets/images/frame-3.png";
 
 import art1 from "../../assets/images/Art-1.gif";
-import art2 from "../../assets/images/Art-1.gif";
-import art3 from "../../assets/images/Art-1.gif";
+import art2 from "../../assets/images/Art-2.gif";
+import art3 from "../../assets/images/Art-3.gif";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Gallery.css";
@@ -12,15 +12,17 @@ import "./Gallery.css";
 const Gallery = () => {
   const navigate = useNavigate();
 
-  const galleryItems = [
-    { id: 1, frame: frame1, gif: art1, path: "/gallery/category1" },
-    { id: 2, frame: frame2, gif: art2, path: "/gallery/category2" },
-    { id: 3, frame: frame3, gif: art3, path: "/gallery/category3" },
-  ];
+ // src/components/Gallery/Gallery.tsx 내부
+
+const galleryItems = [
+  { id: 1, frame: frame1, gif: art1, path: "/gallery/art" },   // 소문자로 일치시키기
+  { id: 2, frame: frame2, gif: art2, path: "/gallery/movie" }, // 소문자로 일치시키기
+  { id: 3, frame: frame3, gif: art3, path: "/gallery/edu" },   // 소문자로 일치시키기
+];
 
   return (
     <section className="gallery-section layout-center">
-      <h2 className="section-title">AI Art Gallery</h2>
+      <h1 className="section-title">AI Art Gallery</h1>
       <div className="frame-container">
         {galleryItems.map((item) => (
           <div

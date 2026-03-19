@@ -34,15 +34,16 @@
 /* 액자 내부 GIF 위치 잡기 */
 .gif-inside {
   position: absolute;
-  top: 15%;    /* 앤틱 액자의 두께에 따라 미세 조정하세요 */
+  top: 10%;    /* 앤틱 액자의 두께에 따라 미세 조정하세요 */
   left: 12%;   /* 앤틱 액자의 두께에 따라 미세 조정하세요 */
   width: 76%;  /* 액자 안쪽 너비 */
-  height: 70%; /* 액자 안쪽 높이 */
+  height: 80%; /* 액자 안쪽 높이 */
   overflow: hidden;
   z-index: 1;  /* 액자 안으로 쏙 들어가게 함 */
   display: flex;
   justify-content: center;
   align-items: center;
+  object-fit: contain;
   background-color: #000; /* GIF 로딩 전 검은 배경 */
 }
 
