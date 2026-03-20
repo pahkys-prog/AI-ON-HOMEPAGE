@@ -2,7 +2,7 @@
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:80vh;
+  min-height:100vh;
 }
 
 .login-card{
@@ -15,9 +15,9 @@
 }
 
 .login-card input{
-  width:100%;
+  width:94%;
   padding:14px;
-  margin-bottom:14px;
+  margin-bottom:20px;
   border-radius:10px;
   border:1px solid #ddd;
 }
@@ -31,11 +31,23 @@
   color:white;
   font-weight:bold;
   cursor:pointer;
+   margin-bottom:20px;
 }
 
-.divider{
-  margin:20px 0;
-  color:#999;
+.reset-btn{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  background:#f5f5f5;
+  cursor:pointer;
+}
+
+.divider span {
+  background: white;
+  padding: 0 10px;
+  color: #888;
+  font-size: 13px;
 }
 
 .google-btn{

@@ -14,6 +14,8 @@ const ContactForm = () => {
 
     try {
       // ✅ 'contacts'라는 새로운 컬렉션에 저장됩니다.
+
+      console.log("🔥 submit 실행됨");
       await addDoc(collection(db, "contacts"), {
         name,
         phone,
@@ -21,6 +23,9 @@ const ContactForm = () => {
         createdAt: serverTimestamp(),
         status: "waiting", // 'waiting' 또는 'done'으로 관리 가능
       });
+
+      console.log("🔥 Contact 저장 완료");
+      console.log("🔥 저장된 데이터:", { name, phone, message });
 
       alert("문의가 성공적으로 접수되었습니다!");
       setName("");
@@ -51,7 +56,6 @@ const ContactForm = () => {
         value={message} 
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button type="submit">문의하기</button>
     </form>
   );
 };
