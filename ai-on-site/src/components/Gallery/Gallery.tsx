@@ -5,7 +5,6 @@ import frame3 from "../../assets/images/frame-3.png";
 import art1 from "../../assets/images/Art-1.gif";
 import art2 from "../../assets/images/Art-2.gif";
 import art3 from "../../assets/images/Art-3.gif";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Gallery.css";
 

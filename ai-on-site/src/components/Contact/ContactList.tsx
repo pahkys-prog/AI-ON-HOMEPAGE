@@ -1,5 +1,4 @@
-console.log("🔥 관리자 페이지 진입");
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { db, auth, googleProvider } from "../../firebase";
 import { 
   collection, 
@@ -11,32 +10,37 @@ import {
 } from "firebase/firestore";
 import { signInWithPopup } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
+import type { DocumentData } from "firebase/firestore";
+import type { Timestamp } from "firebase/firestore";
 
-const ContactList = () => {
-  interface Contact {
+ interface Contact {
   id: string;
   email?: string;
   message?: string;
   name: string;    
   phone: string;   
   status: string;
-  createdAt?: any;  
+  createdAt?: Timestamp;  
 }
+
+const ContactList = () => { 
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
 
 const handleGoogleLogin = async () => {
   try {
-    // 팝업창 띄우기 (이게 실행되면 구글 창이 떠야 합니다)
-    const result = await signInWithPopup(auth, googleProvider);
-    console.log("로그인 성공:", result.user.email);
-    alert("로그인에 성공했습니다!");
-    window.location.reload(); 
-  } catch (error: any) {
-    console.error("에러 상세:", error);
+  const result = await signInWithPopup(auth, googleProvider);
+  console.log("로그인 성공:", result.user.email);
+} catch (error: unknown) {
+  if (error instanceof Error) {
+    console.error("에러:", error.message);
+    alert(error.message);
+  }
+} {
+    console.error("에러 상세:");
     // 에러 코드가 'auth/operation-not-allowed'라면 콘솔 설정 문제
     // 'auth/popup-blocked'라면 브라우저 팝업 차단 문제
-    alert(`로그인 실패: ${error.code}`); 
+    alert(`로그인 실패: $.code}`); 
   }
 };
 
@@ -69,11 +73,20 @@ useEffect(() => {
 
     const q = query(collection(db, "contacts"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setContacts(data);
+   const data: Contact[] = snapshot.docs.map((doc) => {
+      const d = doc.data() as DocumentData;
+  return {
+    id: doc.id,
+    name: d.name ?? "",
+    phone: d.phone ?? "",
+    status: d.status ?? "new",
+    message: d.message ?? "",
+    email: d.email ?? "",
+    createdAt: d.createdAt ?? null,
+  };
+});
+
+setContacts(data);
     });
     return () => unsubscribe();
   }, [isAdmin]);
@@ -98,7 +111,9 @@ useEffect(() => {
       <h2>출입 제한 구역 🔒</h2>
       <p>현재 접속 계정: <strong style={{ color: 'blue' }}>{currentUserEmail}</strong></p>
       <p>이 계정은 관리자 목록에 없습니다.</p>
-      <button onClick={() => window.location.href='/login'}>다른 계정으로 로그인</button>
+      <button onClick={handleGoogleLogin}>
+  구글로 로그인
+</button>
     </div>
   );
 }
@@ -125,7 +140,9 @@ useEffect(() => {
                 <p><strong>보낸이:</strong> {c.name} ({c.phone})</p>
                 <p><strong>내용:</strong> {c.message}</p>
                 <p style={{ fontSize: '12px', color: '#888' }}>
-                  접수일: {c.createdAt?.toDate().toLocaleString()}
+                  접수일: {c.createdAt && "toDate" in c.createdAt
+  ? c.createdAt.toDate().toLocaleString()
+  : ""}
                 </p>
               </div>
 

@@ -1,4 +1,3 @@
-console.log("🔥 내가 수정한 로그인 파일");
 import { useState } from "react";
 import { auth, googleProvider } from "../firebase";
 import {
@@ -26,21 +25,20 @@ export default function Login() {
       );
       alert("로그인 성공!");
       console.log(userCredential.user.email);
-    } catch (error: any) {
-      alert("로그인 실패: " + error.code);
+    } catch (error: unknown) {
+      alert("로그인 실패: " + (error as { code: string }).code);
     }
   };
 
   const handleGoogleLogin = async () => {
-    console.log("🔥 구글 로그인 클릭됨");
-
-    try {
+      try {
       const result = await signInWithPopup(auth, googleProvider);
       console.log("구글 로그인 성공:", result.user.email);
       alert("구글 로그인 성공!");
-    } catch (error: any) {
+      navigate("/");
+    } catch (error: unknown) {
       console.error(error);
-      alert("구글 로그인 실패: " + error.code);
+      alert("구글 로그인 실패: " + (error as { code: string }).code);
     }
   };
 
@@ -53,8 +51,8 @@ export default function Login() {
     try {
       await sendPasswordResetEmail(auth, email);
       alert("비밀번호 재설정 이메일 전송됨");
-    } catch (error: any) {
-      alert("오류: " + error.code);
+    } catch (error: unknown) {
+      alert("오류: " + (error as { code: string }).code);
     }
   };
 
