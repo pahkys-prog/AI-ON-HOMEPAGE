@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { db } from "../../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
-const ContactForm = () => {
+// ✅ 1. 부모로부터 id를 전달받기 위한 인터페이스 정의 (TS 에러 해결)
+interface ContactFormProps {
+  id?: string;
+}
+
+const ContactForm = ({ id }: ContactFormProps) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
@@ -10,24 +15,29 @@ const ContactForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !message) return alert("성함과 내용을 입력해주세요.");
+    if (!name || !message) {
+      alert("성함과 내용을 입력해주세요.");
+      return;
+    }
 
     try {
-      // ✅ 'contacts'라는 새로운 컬렉션에 저장됩니다.
-
       console.log("🔥 submit 실행됨");
+      
+      // ✅ Firestore 'contacts' 컬렉션에 데이터 저장
       await addDoc(collection(db, "contacts"), {
         name,
         phone,
         message,
         createdAt: serverTimestamp(),
-        status: "waiting", // 'waiting' 또는 'done'으로 관리 가능
+        status: "waiting", 
       });
 
       console.log("🔥 Contact 저장 완료");
       console.log("🔥 저장된 데이터:", { name, phone, message });
 
       alert("문의가 성공적으로 접수되었습니다!");
+      
+      // 입력창 초기화
       setName("");
       setPhone("");
       setMessage("");
@@ -38,12 +48,14 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="contact-form">
+    // ✅ 2. 부모가 넘겨준 id를 여기에 적용 (form="contact-form-element"와 연결됨)
+    <form id={id} onSubmit={handleSubmit} className="contact-form">
       <input 
         type="text" 
         placeholder="성함" 
         value={name} 
         onChange={(e) => setName(e.target.value)} 
+        required
       />
       <input 
         type="text" 
@@ -55,6 +67,7 @@ const ContactForm = () => {
         placeholder="문의하실 내용을 적어주세요" 
         value={message} 
         onChange={(e) => setMessage(e.target.value)}
+        required
       />
     </form>
   );
