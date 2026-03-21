@@ -1,4 +1,3 @@
-import React from "react";
 import subLogo from '../../assets/images/subLogo.png';
 import "./About.css";
 import { Link } from "react-router-dom";

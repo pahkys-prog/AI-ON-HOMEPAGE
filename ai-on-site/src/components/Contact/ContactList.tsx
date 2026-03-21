@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { db, auth, googleProvider } from "../../firebase";
 import { 
   collection, 
@@ -9,33 +9,38 @@ import {
   updateDoc // ✅ 업데이트를 위해 추가
 } from "firebase/firestore";
 import { signInWithPopup } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import type { DocumentData } from "firebase/firestore";
+import type { Timestamp } from "firebase/firestore";
 
-
-const ContactList = () => {
-  interface Contact {
+ interface Contact {
   id: string;
   email?: string;
   message?: string;
   name: string;    
   phone: string;   
   status: string;
-  createdAt?: any;  
+  createdAt?: Timestamp;  
 }
+
+const ContactList = () => { 
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
 
 const handleGoogleLogin = async () => {
   try {
-    // 팝업창 띄우기 (이게 실행되면 구글 창이 떠야 합니다)
-    const result = await signInWithPopup(auth, googleProvider);
-    console.log("로그인 성공:", result.user.email);
-    alert("로그인에 성공했습니다!");
-    window.location.reload(); 
-  } catch (error: any) {
-    console.error("에러 상세:", error);
+  const result = await signInWithPopup(auth, googleProvider);
+  console.log("로그인 성공:", result.user.email);
+} catch (error: unknown) {
+  if (error instanceof Error) {
+    console.error("에러:", error.message);
+    alert(error.message);
+  }
+} {
+    console.error("에러 상세:");
     // 에러 코드가 'auth/operation-not-allowed'라면 콘솔 설정 문제
     // 'auth/popup-blocked'라면 브라우저 팝업 차단 문제
-    alert(`로그인 실패: ${error.code}`); 
+    alert(`로그인 실패: $.code}`); 
   }
 };
 
@@ -49,7 +54,7 @@ useEffect(() => {
       setCurrentUserEmail(user.email); // 현재 로그인된 이메일을 상태에 저장
 
       //  아래 "본인이 등록한 메일"을 정확하게 입력하세요!
-      if (user.email === "운영자님의@이메일.com") { 
+      if (user.email === "pahkys@gmail.com") { 
         setIsAdmin(true);
       } else {
         setIsAdmin(false);
@@ -68,11 +73,20 @@ useEffect(() => {
 
     const q = query(collection(db, "contacts"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setContacts(data);
+   const data: Contact[] = snapshot.docs.map((doc) => {
+      const d = doc.data() as DocumentData;
+  return {
+    id: doc.id,
+    name: d.name ?? "",
+    phone: d.phone ?? "",
+    status: d.status ?? "new",
+    message: d.message ?? "",
+    email: d.email ?? "",
+    createdAt: d.createdAt ?? null,
+  };
+});
+
+setContacts(data);
     });
     return () => unsubscribe();
   }, [isAdmin]);
@@ -97,22 +111,25 @@ useEffect(() => {
       <h2>출입 제한 구역 🔒</h2>
       <p>현재 접속 계정: <strong style={{ color: 'blue' }}>{currentUserEmail}</strong></p>
       <p>이 계정은 관리자 목록에 없습니다.</p>
-      <button onClick={() => window.location.href='/login'}>다른 계정으로 로그인</button>
+      <button onClick={handleGoogleLogin}>
+  구글로 로그인
+</button>
     </div>
   );
 }
 
-  return (
-    <div className="admin-contact-list" style={{ padding: '20px' }}>
-      <h3> 도착한 문의 목록</h3>
+  return ( 
+    <div className="admin-contact-list" style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto'}}>
+      <h2> 도착한 문의 목록</h2>
       {contacts.length > 0 ? (
-        contacts.map((c: ContactItem) => (
+        contacts.map((c: Contact) => (
           <div 
             key={c.id} 
             style={{ 
+              maxWidth: '1000px',
               border: '1px solid #ddd', 
               margin: '10px 0', 
-              padding: '15px',
+              padding: '20px',
               borderRadius: '8px',
               backgroundColor: c.status === "done" ? "#f9f9f9" : "#fff", // 완료된 건 연하게 표시
               opacity: c.status === "done" ? 0.7 : 1
@@ -123,14 +140,16 @@ useEffect(() => {
                 <p><strong>보낸이:</strong> {c.name} ({c.phone})</p>
                 <p><strong>내용:</strong> {c.message}</p>
                 <p style={{ fontSize: '12px', color: '#888' }}>
-                  접수일: {c.createdAt?.toDate().toLocaleString()}
+                  접수일: {c.createdAt && "toDate" in c.createdAt
+  ? c.createdAt.toDate().toLocaleString()
+  : ""}
                 </p>
               </div>
 
               {/* ✅ 확인 버튼: 아직 완료되지 않은 경우에만 표시 */}
               {c.status !== "done" ? (
                 <button 
-                  onClick={handleGoogleLogin}
+                  onClick={() => markAsDone(c.id)}
                   style={{
                     backgroundColor: '#5bb68c',
                     color: 'white',

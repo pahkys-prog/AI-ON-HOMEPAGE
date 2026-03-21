@@ -1,6 +1,10 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { auth, googleProvider } from "../firebase";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
 
@@ -14,20 +18,50 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      alert("로그인 성공!");
+      console.log(userCredential.user.email);
+    } catch (error: unknown) {
+      alert("로그인 실패: " + (error as { code: string }).code);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+      try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log("구글 로그인 성공:", result.user.email);
+      alert("구글 로그인 성공!");
       navigate("/");
-    } catch (error) {console.error(error); alert("로그인 실패");
+    } catch (error: unknown) {
+      console.error(error);
+      alert("구글 로그인 실패: " + (error as { code: string }).code);
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    if (!email) {
+      alert("이메일을 입력하세요");
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("비밀번호 재설정 이메일 전송됨");
+    } catch (error: unknown) {
+      alert("오류: " + (error as { code: string }).code);
     }
   };
 
   return (
     <div className="login-wrapper">
       <div className="login-card">
-
         <h2>로그인</h2>
 
         <form onSubmit={handleLogin}>
-
           <input
             type="email"
             placeholder="이메일"
@@ -48,18 +82,22 @@ export default function Login() {
             로그인
           </button>
 
+          <button className="reset-btn" onClick={handlePasswordReset}>
+            비밀번호 재설정
+          </button>
         </form>
 
-        <div className="divider">또는</div>
+        <div className="divider">
+          <span>또는</span>
+        </div>
 
-        <button className="google-btn">
+        <button className="google-btn" onClick={handleGoogleLogin}>
           Google로 로그인
         </button>
 
         <p className="signup-link">
           계정이 없으신가요? <Link to="/signup">회원가입</Link>
         </p>
-
       </div>
     </div>
   );

@@ -104,7 +104,7 @@ const Banner = () => {
               ) : (
                 <img
                   src={banner.url}
-                  alt={banner.title}
+                  alt={banner.url}
                   className="banner-media"
                 />
               )}

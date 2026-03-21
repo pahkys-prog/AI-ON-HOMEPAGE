@@ -38,8 +38,7 @@ const Login = () => {
 
   return (
     <div className="login-container" style={{ maxWidth: '400px', margin: '100px auto', padding: '20px', textAlign: 'center', border: '1px solid #ddd', borderRadius: '10px' }}>
-      <h2>관리자 로그인</h2>
-      
+       
       {/* 이메일 폼 */}
       <form onSubmit={handleEmailLogin} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <input 
@@ -56,7 +55,7 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           style={{ padding: '10px' }}
         />
-        <button type="submit" style={{ padding: '10px', backgroundColor: '#5bb68c', color: 'white', border: 'none', cursor: 'pointer' }}>
+        <button type="submit" style={{ padding: '10px', backgroundColor: '#1841f7', color: 'white', border: 'none', cursor: 'pointer' }}>
           로그인
         </button>
       </form>
@@ -64,7 +63,7 @@ const Login = () => {
       <div style={{ margin: '20px 0', borderTop: '1px solid #eee', paddingTop: '20px' }}>
         <button 
           onClick={handleGoogleLogin}
-          style={{ width: '100%', padding: '10px', backgroundColor: '#4285F4', color: 'white', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
+          style={{ width: '100%', padding: '10px', backgroundColor: '#ecf2fa', color: 'white', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
         >
           Google로 계속하기
         </button>

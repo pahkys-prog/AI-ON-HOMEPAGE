@@ -3,10 +3,12 @@ import { onAuthStateChanged, signOut, type User } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/Logo-AION.png";
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 
 export default function Header() {
   const [user, setUser] = useState<User | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -18,6 +20,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     await signOut(auth);
+    navigate("/"); // 로그아웃 후 메인 페이지로 이동
   };
 
   return (
@@ -35,9 +38,15 @@ export default function Header() {
           <div className="nav-item-dropdown">
             <span className="nav-item">Business ▾</span>
             <div className="dropdown-content">
-              <Link to="/business" state={{ tabIndex: 0 }}>AI 도구 활용</Link>
-              <Link to="/business" state={{ tabIndex: 1 }}>디지털 콘텐츠 제작</Link>
-              <Link to="/business" state={{ tabIndex: 2 }}>기관/대상 맞춤형교육</Link>
+              <Link to="/business" state={{ tabIndex: 0 }}>
+                AI 도구 활용
+              </Link>
+              <Link to="/business" state={{ tabIndex: 1 }}>
+                디지털 콘텐츠 제작
+              </Link>
+              <Link to="/business" state={{ tabIndex: 2 }}>
+                기관/대상 맞춤형교육
+              </Link>
             </div>
           </div>
 
@@ -48,10 +57,17 @@ export default function Header() {
             Contact
           </Link>
         </nav>
+
         <div className="header-buttons">
           {user ? (
             <>
-              <span className="user-email">{user.email}</span>
+              {user.email === "pahkys@gmail.com" ? (
+                <Link to="/admin/contacts" className="user-email">
+                  {user.email}
+                </Link>
+              ) : (
+                <span className="user-email">{user.email}</span>
+              )}
 
               <button className="logout-btn" onClick={handleLogout}>
                 로그아웃
