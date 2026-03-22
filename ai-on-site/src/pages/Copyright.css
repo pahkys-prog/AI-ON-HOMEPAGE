@@ -1,0 +1,130 @@
+/* 컨테이너: 페이지 전체 중앙 정렬 및 배경 */
+.copyright-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
+  background-color: #f9f9fb; /* 연한 그레이 배경으로 카드 부각 */
+  min-height: 80vh;
+}
+
+/* 카드: 본문 내용이 담기는 흰색 박스 */
+.copyright-content-card {
+  max-width: 800px;
+  width: 100%;
+  background: #ffffff;
+  padding: 60px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  line-height: 1.8;
+  color: #333;
+}
+
+/* 메인 타이틀 */
+.copyright-main-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #111;
+  text-align: center;
+  border-bottom: 2px solid #333;
+  padding-bottom: 20px;
+}
+
+/* 인트로 문구 */
+.copyright-intro {
+  font-size: 1.1rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* 섹션 공통 스타일 */
+.copyright-section {
+  margin-bottom: 40px;
+}
+
+.copyright-section h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #222;
+  display: flex;
+  align-items: center;
+}
+
+.copyright-section h3::before {
+  content: "•";
+  margin-right: 10px;
+  color: #007bff; /* 포인트 컬러 */
+}
+
+.copyright-section p, .copyright-section li {
+  font-size: 1rem;
+  color: #444;
+}
+
+.copyright-section ul {
+  padding-left: 20px;
+  list-style-type: none;
+}
+
+.copyright-section li {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.copyright-section li::before {
+  content: "-";
+  position: absolute;
+  left: -15px;
+  color: #888;
+}
+
+/* ⚠️ 강조 박스 (콘텐츠 이용 제한) */
+.warning-box {
+  background-color: #fffafa; /* 아주 연한 붉은색 배경 */
+  border-left: 5px solid #ff4d4d; /* 강렬한 빨간색 왼쪽 선 */
+  padding: 25px 30px;
+  border-radius: 0 8px 8px 0;
+}
+
+.warning-box h3 {
+  color: #d32f2f;
+}
+
+.warning-box h3::before {
+  color: #d32f2f;
+}
+
+/* 법적 책임 강조 텍스트 */
+.copyright-section strong {
+  color: #d32f2f;
+  text-decoration: underline;
+}
+
+/* 하단 문의처 정보 */
+.copyright-contact-info {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.copyright-contact-info strong {
+  color: #111;
+  text-decoration: none !important;
+}
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+  .copyright-content-card {
+    padding: 40px 20px;
+  }
+  
+  .copyright-main-title {
+    font-size: 1.6rem;
+  }
+}
