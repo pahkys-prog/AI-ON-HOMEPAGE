@@ -1,6 +1,6 @@
 /* 1. 전체 중앙 정렬 및 너비 제한 */
 .banner-wrapper {
-  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,30 +10,30 @@
 .banner-container {
   width: 100%;
   max-width: 1000px; /* 1000px 제한 */
-  height:300px;
+  max-height:300px;
   position: relative; /* 화살표 배치를 위한 기준 */
   overflow: hidden; /* 배너가 쌓이지 않고 한 장만 보이게 함 */
   border-radius: 20px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  margin: 0 auto; /* 중앙 정렬 */
 }
 
 /* 2. 배너 가로 나열 (쌓임 방지) */
 .banner-track {
   display: flex;
+  width: 100%;
   height: 100%;
   transition: transform 0.5s ease-in-out;
 }
 
 .banner-item {
-  flex-shrink: 0; /* 크기 줄어듦 방지 */
+  flex: 0 0 100%; /* 크기 줄어듦 방지 */
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
+  overflow: hidden; /* 내부 이미지가 넘치는 것 방지 */
 }
 
 /* 3. 화살표 디자인 (16px 안쪽 배치) */
@@ -134,33 +134,4 @@
   transform: scale(1.1); /* 살짝 커지는 효과 */
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   filter: saturate(1.5); /* 색감을 더 진하게 */
-}
-
-/* 📱 모바일 대응 */
-@media (max-width: 768px) {
-  .banner-container {
-    height: 180px; /* 모바일에서는 높이 줄이기 */
-  }
-
-  .banner-item {
-    font-size: 1.2rem; /* 글자 줄이기 */
-  }
-
-  .arrow-btn {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
-  }
-
-  .sns-container {
-    gap: 15px;
-    flex-wrap: wrap; /* 줄바꿈 허용 */
-    justify-content: center;
-  }
-
-  .sns-item {
-    width: 40px;
-    height: 40px;
-    padding: 8px;
-  }
 }
