@@ -19,12 +19,14 @@ export default function Signup() {
     interest: "",
     password: "",
     confirmPassword: "",
+    agreeCopyright: false, // ✅ 저작권 동의 상태 추가
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -32,13 +34,20 @@ export default function Signup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // 1) 비밀번호 일치 확인
     if (form.password !== form.confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
 
+    // 2) 저작권 동의 확인 (법적 보호를 위한 필수 체크)
+    if (!form.agreeCopyright) {
+      alert("저작권 정책 및 이용 약관에 동의해 주세요.");
+      return;
+    }
+
     try {
-      // 1) Firebase Auth 계정 생성 (앞뒤 공백 제거)
+      // 3) Firebase Auth 계정 생성 (앞뒤 공백 제거)
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         form.email.trim(),
@@ -46,8 +55,7 @@ export default function Signup() {
       );
       const user = userCredential.user;
 
-      // 2) Firestore 'users' 컬렉션에 추가 정보 저장
-      // 이 정보들이 저장되어야 나중에 관리자 페이지에서 회원 관리가 가능합니다.
+      // 4) Firestore 'users' 컬렉션에 추가 정보 저장
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name: form.name,
@@ -55,6 +63,7 @@ export default function Signup() {
         phone: form.phone,
         organization: form.organization,
         interest: form.interest,
+        agreeCopyright: true, // ✅ 동의 여부 저장
         role: "user", // 기본 권한
         createdAt: serverTimestamp(),
       });
@@ -65,12 +74,13 @@ export default function Signup() {
       
     } catch (error: unknown) {
       console.error("회원가입 에러:", error);
-      if ((error as { code?: string }).code === "auth/email-already-in-use") {
+      const err = error as { code?: string; message?: string };
+      if (err.code === "auth/email-already-in-use") {
         alert("이미 사용 중인 이메일입니다.");
-      } else if ((error as { code?: string }).code === "auth/weak-password") {
+      } else if (err.code === "auth/weak-password") {
         alert("비밀번호는 6자리 이상이어야 합니다.");
       } else {
-        alert("회원가입에 실패했습니다: " + (error as { message?: string }).message);
+        alert("회원가입에 실패했습니다: " + err.message);
       }
     }
   };
@@ -108,7 +118,6 @@ export default function Signup() {
         <h2 className="signup-title">회원가입</h2>
 
         <form className="signup-form" onSubmit={handleSubmit}>
-          {/* ✅ 각 input에 value와 required 속성을 추가하여 안정성을 높였습니다. */}
           <input 
             name="name" 
             placeholder="이름" 
@@ -165,6 +174,20 @@ export default function Signup() {
             required
           />
 
+          {/* ✅ 저작권 동의 체크박스 삽입 (가입 버튼 바로 위) */}
+          <div className="signup-agreement">
+            <input
+              type="checkbox"
+              id="agreeCopyright"
+              name="agreeCopyright"
+              checked={form.agreeCopyright}
+              onChange={handleChange}
+            />
+            <label htmlFor="agreeCopyright">
+              [필수] <Link to="/copyright" target="_blank">저작권 정책</Link> 및 이용 약관에 동의합니다.
+            </label>
+          </div>
+
           <button className="signup-button" type="submit">
             회원가입
           </button>
@@ -174,7 +197,6 @@ export default function Signup() {
           <span>또는</span>
         </div>
 
-        {/* ✅ 구글 버튼에 클릭 이벤트 연결 */}
         <button 
           className="google-button" 
           type="button" 
