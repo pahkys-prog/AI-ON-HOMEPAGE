@@ -96,3 +96,21 @@
   from { transform: scale(1.1); opacity: 0.8; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* 모바일 반응형 스타일 (화면 너비 768px 이하일 때 적용) */
+@media (max-width: 768px) {
+  .business-card-container {
+    /* 1. 가로 배열을 세로 배열로 변경 */
+    flex-direction: column;
+    
+    /* 2. 모바일에서는 여백을 조금 조정하고 싶다면 추가 (선택사항) */
+    margin-bottom: 20px;
+    border-radius: 15px; /* 모바일 화면에 맞춰 곡률을 약간 줄임 */
+  }
+
+  /* 만약 카드 내부 이미지나 텍스트 영역의 너비가 고정되어 있다면 100%로 해제 */
+  .business-card-image, 
+  .business-card-content {
+    width: 100%;
+  }
+}

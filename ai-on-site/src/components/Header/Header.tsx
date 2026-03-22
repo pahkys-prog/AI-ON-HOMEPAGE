@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import "./Header.css";
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ export default function Header() {
         <Link to="/">
           <img src={logo} className="logo" alt="AI-ON 로고" />
         </Link>
-        <nav className="nav-menu">
+        <nav className="nav-menu desktop-only">
           <Link to="/about" className="nav-item">
             About
           </Link>
@@ -57,34 +58,63 @@ export default function Header() {
             Contact
           </Link>
         </nav>
+        <div className="header-right">
+          <div className="header-buttons">
+            {user ? (
+              <>
+                {user.email === "pahkys@gmail.com" ? (
+                  <Link to="/admin/contacts" className="user-email">
+                    {user.email}
+                  </Link>
+                ) : (
+                  <span className="user-email">{user.email}</span>
+                )}
 
-        <div className="header-buttons">
-          {user ? (
-            <>
-              {user.email === "pahkys@gmail.com" ? (
-                <Link to="/admin/contacts" className="user-email">
-                  {user.email}
+                <button className="logout-btn" onClick={handleLogout}>
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="Hlogin-btn">
+                  로그인
                 </Link>
-              ) : (
-                <span className="user-email">{user.email}</span>
-              )}
 
-              <button className="logout-btn" onClick={handleLogout}>
-                로그아웃
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="Hlogin-btn">
-                로그인
-              </Link>
+                <Link to="/signup" className="signup-btn">
+                  회원가입
+                </Link>
+              </>
+            )}
+          </div>
 
-              <Link to="/signup" className="signup-btn">
-                회원가입
-              </Link>
-            </>
-          )}
+          <button
+            className="hamburger-btn"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
+          >
+            <span className={`bar ${isMenuOpen ? "open" : ""}`}></span>
+            <span className={`bar ${isMenuOpen ? "open" : ""}`}></span>
+            <span className={`bar ${isMenuOpen ? "open" : ""}`}></span>
+          </button>
         </div>
+      </div>
+
+      {/* 4. 모바일 사이드바 (카드 스타일) */}
+      <div className={`mobile-sidebar ${isMenuOpen ? "active" : ""}`}>
+        <nav className="mobile-nav-card">
+          <Link to="/about" onClick={() => setIsMenuOpen(false)}>
+            About
+          </Link>
+          <Link to="/business" onClick={() => setIsMenuOpen(false)}>
+            Business
+          </Link>
+          <Link to="/gallery" onClick={() => setIsMenuOpen(false)}>
+            Gallery
+          </Link>
+          <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
+            Contact
+          </Link>
+        </nav>
       </div>
     </header>
   );

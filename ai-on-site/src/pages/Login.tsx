@@ -35,7 +35,7 @@ export default function Login() {
       try {
       const result = await signInWithPopup(auth, googleProvider);
       console.log("구글 로그인 성공:", result.user.email);
-      alert("구글 로그인 성공!");
+      alert("로그인 성공!");
       navigate("/");
     } catch (error: unknown) {
       console.error(error);

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import "./Banner.css"; // 같은 폴더에 Banner.css 파일을 만드세요!
+import "./Banner.css";
 import instagram from "../../assets/icons/icon-instagram.png";
 import blog from "../../assets/icons/icon-blog.png";
 import cafe from "../../assets/icons/icon-cafe.png";

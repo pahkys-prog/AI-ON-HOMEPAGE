@@ -34,6 +34,12 @@
   gap:12px;
 }
 
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
 .Hlogin-btn{
   padding:8px 16px;
   border:1px solid #ddd;
@@ -144,4 +150,80 @@
 
 .nav-item:hover::after {
   width: 100%;
+}
+
+.hamburger-btn {
+  display: none; /* 기본적으로는 숨김 (데스크탑에서는 보이지 않도록) */
+}
+
+ .mobile-sidebar {
+  display: none; /* 기본적으로는 숨김 (데스크탑에서는 보이지 않도록) */
+ }
+/* --- 모바일 대응 (768px 이하) --- */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important; /* 데스크탑 메뉴와 버튼 숨김 */
+  }
+
+  .hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2001;
+  }
+
+  .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    transition: 0.3s;
+  }
+
+  /* 햄버거 X자 애니메이션 */
+  .bar.open:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .bar.open:nth-child(2) { opacity: 0; }
+  .bar.open:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  /* 모바일 사이드바 (카드 스타일) */
+  .mobile-sidebar {
+    position: fixed;
+    top: 80px; /* 헤더 바로 아래 */
+    right: -100%; /* 숨겨둠 */
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: rgba(0, 0, 0, 0.05); /* 배경 살짝 어둡게 */
+    transition: 0.4s;
+    z-index: 2000;
+    display: flex;
+    justify-content: flex-end; /* 오른쪽에서 나타남 */
+  }
+
+  .mobile-sidebar.active {
+    right: 0;
+  }
+
+  .mobile-nav-card {
+    width: 250px;
+    height: fit-content;
+    margin: 20px;
+    background: white;
+    border-radius: 20px; /* 카드 모양 곡률 */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .mobile-nav-card a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
 }

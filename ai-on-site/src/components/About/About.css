@@ -12,6 +12,30 @@
   gap: 20px; /* 이미지와 텍스트 사이 간격 */
 }
 
+/* 모바일 반응형 스타일 (화면 너비 768px 이하) */
+@media (max-width: 768px) {
+  .about-container {
+    /* 1. 가로 배열을 세로 배열로 변경 */
+    flex-direction: column;
+
+    /* 2. 텍스트와 이미지 정렬을 중앙으로 (선택 사항) */
+    text-align: center;
+    
+    /* 3. 모바일 화면 양옆 여백 확보 */
+    padding: 0 20px;
+    
+    /* 4. 간격 조정 (필요하다면 데스크탑보다 좁게 조정 가능) */
+    gap: 30px; 
+  }
+
+  /* 내부 이미지나 텍스트 박스가 고정 너비라면 100%로 해제 */
+  .about-image, 
+  .about-text-content {
+    width: 100%;
+    max-width: none;
+  }
+}
+
 .about-image {
   flex: 1;
   position: relative;
