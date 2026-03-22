@@ -9,7 +9,7 @@ export default function Footer() {
           <div className="footer-brand">
             <h3 className="footer-company">제주 AI ON 협동조합</h3>
             <p className="footer-desc">
-              디지털 교육 · 교육용 서적 출판 · AI Art 전시 · 콘텐츠 제작
+             인공지능과 예술의 융합을 통한 미래 가치 창출
             </p>
           </div>
 
@@ -35,14 +35,15 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p className="footer-copy">© 2026 JEJU AI ON. All rights reserved.</p>
+          <p className="footer-copy">
+            본 사이트의 모든 교육 자료 및 콘텐츠는 저작권법의 보호를 받으며, 무단 복제 및 전재를 금합니다.<br />© 2026 JEJU AI ON. All rights reserved.</p>
           <div className="footer-links">
             {/* ✅ 가상 페이지로 연결되는 Link 컴포넌트 */}
             <Link to="/privacy">개인정보처리방침</Link>
             <span className="divider">|</span>
             <Link to="/terms">이용약관</Link>
             <span className="divider">|</span>
-            <Link to="/FooterPolicy">운영정책</Link>
+            <Link to="/copyright">저작권 정책</Link>
             <span className="divider">|</span>
           </div>
         </div>

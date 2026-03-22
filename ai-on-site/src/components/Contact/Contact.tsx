@@ -6,21 +6,20 @@ import "./Contact.css";
 import ContactForm from "./ContactForm";
 
 const Contact = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    if (location.state?.openContact) {
-      setIsOpen(true);
+  // 1. 초기값 설정 (ESLint 경고 해결을 위해 선언부에서 바로 체크)
+  const [isOpen, setIsOpen] = useState(location.state?.openContact || false);
 
+  useEffect(() => {
+    // 2. 스크롤 이동 로직
+    if (location.state?.openContact) {
       const contactSection = document.getElementById("contact");
       if (contactSection) {
         contactSection.scrollIntoView({ behavior: "smooth" });
       }
-
-      window.history.replaceState({}, document.title);
     }
-  }, [location]);
+  }, [location.state]);
 
   return (
     <section id="contact" className="contact-section">
@@ -54,8 +53,9 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* ✅ 여기서 실제 ContactForm 사용 */}
-          <ContactForm />
+          {/* ✅ 핵심: 실제 Firebase 저장은 이 ContactForm 내부에서 handleSubmit이 처리해야 합니다. */}
+          {/* 하단의 '문의 보내기' 버튼이 form 바깥에 있다면, form에 id를 주고 연결해야 합니다. */}
+          <ContactForm id="contact-form-element" />
 
           <div className="contact-form-footer">
             <div className="contact-button-group">
@@ -66,7 +66,12 @@ const Contact = () => {
               >
                 닫기
               </button>
-              <button type="submit" className="c-submit-btn">
+              {/* ✅ form 외부의 버튼이 제출을 수행하려면 form의 id와 연결(form="...")해야 합니다. */}
+              <button 
+                type="submit" 
+                form="contact-form-element" 
+                className="c-submit-btn"
+              >
                 문의 보내기
               </button>
             </div>

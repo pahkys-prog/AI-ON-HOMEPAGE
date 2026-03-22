@@ -18,6 +18,7 @@ import ContactList from "./components/Contact/ContactList";
 import GalleryArt from "./pages/GalleryArt";
 import GalleryMovie from "./pages/GalleryMovie.tsx"; // .tsx 추가
 import GalleryEdu from "./pages/GalleryEdu.tsx"; // .tsx 추가
+import Copyright from "./pages/Copyright.tsx";
 function App() {
   return (
     // ✅ Router(BrowserRouter)가 Routes 전체를 감싸고 있어야 페이지 이동이 작동합니다.
@@ -61,6 +62,7 @@ function App() {
         <Route path="/business" element={<Business />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/copyright" element={<Copyright />} />
       </Routes>
       <Footer />
     </>

@@ -17,6 +17,7 @@ export default function Welcome() {
   return (
     <div className="welcome-container">
       <img src={welcomeImage} className="welcome-image" alt="환영을 알리는 풍선" />
+      <h2 className="page-title">회원 가입을 환영합니다!!</h2>
     </div>
   );
 }

@@ -113,3 +113,28 @@
 .google-button:hover {
   background: #f7f7f7;
 }
+
+.signup-agreement {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  font-size: 14px;
+  color: #555;
+  text-align: left; /* 왼쪽 정렬 */
+}
+
+.signup-agreement input {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.signup-agreement label {
+  cursor: pointer;
+}
+
+.signup-agreement a {
+  color: #007bff;
+  text-decoration: underline;
+}

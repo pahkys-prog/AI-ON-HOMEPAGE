@@ -12,6 +12,17 @@
   animation: welcomeMove 2.5s ease forwards;
 }
 
+.page-title{
+  position:absolute;
+  bottom:20%;
+  left:30%;
+  transform:translate(-50%,-50%);
+  font-size:2rem;
+  color:#5bb68c;
+  opacity:0;
+  animation: welcomeMove 2.5s ease forwards;
+}
+
 @keyframes welcomeMove{
 
   0%{
@@ -28,5 +39,4 @@
     transform:translate(200px,-200px) scale(0.8);
     opacity:0;
   }
-
 }
