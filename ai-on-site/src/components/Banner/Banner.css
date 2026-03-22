@@ -135,3 +135,32 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   filter: saturate(1.5); /* 색감을 더 진하게 */
 }
+
+/* 📱 모바일 대응 */
+@media (max-width: 768px) {
+  .banner-container {
+    height: 180px; /* 모바일에서는 높이 줄이기 */
+  }
+
+  .banner-item {
+    font-size: 1.2rem; /* 글자 줄이기 */
+  }
+
+  .arrow-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+
+  .sns-container {
+    gap: 15px;
+    flex-wrap: wrap; /* 줄바꿈 허용 */
+    justify-content: center;
+  }
+
+  .sns-item {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+  }
+}
