@@ -1,0 +1,147 @@
+.header {
+  width: 100%;
+  height: 80px;
+  background-color: #f8f8f8;
+  
+  /* 1. 하단 그림자 추가 */
+  /* 가로위치 세로위치 번짐정도 그림자크기 색상(투명도포함) */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); 
+  
+  /* 2. 기존 border-bottom이 있다면 제거하거나 연하게 조절 */
+  border-bottom: 1px solid #f0f0f0; 
+
+  display: flex;
+  justify-content: center;
+  position: sticky; /* 스크롤 시에도 상단 고정 */
+  top: 0;
+  z-index: 1000;   /* 드롭다운이나 배너보다 위에 오도록 설정 */
+}
+.header-inner{
+  max-width:1200px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0px 20px;
+}
+
+.logo{
+  height:90px;
+}
+
+.header-buttons{
+  display:flex;
+  gap:12px;
+}
+
+.Hlogin-btn{
+  padding:8px 16px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  background:white;
+  cursor:pointer;
+  text-decoration: none;
+}
+
+.signup-btn{
+  padding:8px 16px;
+  border:none;
+  border-radius:8px;
+  background:#5bb68c;
+  color:white;
+  cursor:pointer;
+  text-decoration: none;
+}
+
+.user-email{
+  margin-right:16px;
+  font-size:14px;
+  color:#555;
+}
+
+.logout-btn{
+  padding:8px 16px;
+  border-radius:8px;
+  border:none;
+  background:#eee;
+  cursor:pointer;
+}
+/* 메뉴 전체 컨테이너 */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 50px; /* 메뉴 사이 간격을 넉넉히 (수치는 취향껏 조절하세요) */
+}
+
+/* 개별 메뉴 스타일 (기본 상태) */
+.nav-item {
+  text-decoration: none; /* 파란 밑줄 제거 */
+  color: #333333;        /* 모든 메뉴 동일한 어두운 회색/검정색 */
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease; /* 부드러운 변화 효과 */
+}
+
+/* 마우스를 올렸을 때(Hover) */
+.nav-item:hover {
+  color: #03C75A; /* 호버 시에만 포인트 컬러로 변경 (로고 색상 추천) */
+}
+
+/* 1. 드롭다운을 포함한 메뉴 항목 (부모) */
+.nav-item-dropdown {
+  position: relative; /* 자식인 dropdown-content의 기준점이 됩니다 */
+  display: inline-block;
+}
+
+/* 2. 실제 드롭다운 박스 (평소엔 숨김) */
+.dropdown-content {
+  display: none;       /* ✅ 핵심: 평소에는 화면에서 아예 지웁니다 */
+  position: absolute;  /* ✅ 핵심: 다른 메뉴를 밀어내지 않고 둥둥 뜨게 합니다 */
+  top: 100%;           /* 부모 메뉴 바로 아래에 위치 */
+  left: 50%;           /* 중앙 정렬을 위한 시작점 */
+  transform: translateX(-50%); /* 정확히 중앙으로 이동 */
+  background-color: #ffffff;
+  min-width: 160px;    /* 드롭다운 너비 */
+  padding: 10px 0;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.1); /* 그림자 효과 */
+  border-radius: 8px;
+  z-index: 1000;       /* 배너보다 위에 보이게 함 */
+}
+
+/* 3. 부모 메뉴(Business)에 마우스 올렸을 때만 나타나게 하기 */
+.nav-item-dropdown:hover .dropdown-content {
+  display: flex;       /* ✅ 마우스를 올리면 다시 나타남 */
+  flex-direction: column; /* 메뉴들을 위아래로 나열 */
+}
+
+/* 4. 드롭다운 내부 링크들 밑줄 제거 및 스타일 */
+.dropdown-content a {
+  text-decoration: none; /* 파란 밑줄 제거 */
+  color: #333;
+  padding: 12px 20px;
+  font-size: 14px;
+  display: block;
+  transition: background 0.2s;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+  color: #03C75A;
+}
+
+/* (보너스) 호버했을 때 아래에 얇은 선이 스윽 나타나게 하고 싶다면? */
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #03C75A;
+  transition: width 0.3s ease;
+}
+
+.nav-item:hover::after {
+  width: 100%;
+}

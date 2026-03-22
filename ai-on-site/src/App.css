@@ -1,72 +1,114 @@
-body{
-  margin:0;
-  font-family: sans-serif;
-  line-height:1.6;
+/* index.css 또는 App.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* 패딩이 너비에 영향을 주지 않도록 */
 }
 
-.header{
-  background:#e8f3ef;
-  padding-bottom:60px;
+body {
+  font-family:
+    "Pretendard",
+    -apple-system,
+    sans-serif;
+  background-color: #fcfcfc;
+  color: #333;
+  line-height: 1.6;
+}
+/* 범용적인 이름 대신 독자적인 이름을 사용합니다 */
+.layout-center {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto !important;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: block;
 }
 
-.nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 40px;
+body,
+h2,
+p,
+ul {
+  margin: 0;
+  padding: 0;
 }
 
-.logo{
-  font-size:24px;
+.header {
+  background: #e8f3ef;
+  padding-bottom: 60px;
 }
 
-.menu{
-  display:flex;
-  gap:20px;
-  list-style:none;
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
 }
 
-.menu a{
-  text-decoration:none;
-  color:#333;
+.logo {
+  font-size: 24px;
 }
 
-.hero{
-  text-align:center;
-  padding:60px 20px;
+.menu {
+  display: flex;
+  gap: 20px;
+  list-style: none;
 }
 
-.section{
-  max-width:900px;
-  margin:auto;
-  padding:80px 20px;
+.menu a {
+  text-decoration: none;
+  color: #333;
 }
 
-.section h2{
-  margin-bottom:20px;
+.hero {
+  text-align: center;
+  padding: 60px 20px;
 }
 
-.gallery{
-  display:flex;
-  gap:20px;
+/* 중앙 정렬 컨테이너 */
+.container {
+  width: 100%;
+  max-width: 1100px; /* 배너보다 조금 더 넓게 혹은 1000px로 취향껏 조절 */
+  margin: 0 auto; /* ✅ 왼쪽/오른쪽 여백을 똑같이 나눠 가져서 중앙으로! */
+  padding: 80px 20px; /* 모바일에서 글자가 벽에 붙지 않게 */
+  box-sizing: border-box;
 }
 
-.gallery img{
-  width:50%;
-  border-radius:10px;
+/* 각 섹션 사이의 간격을 넉넉히 줍니다 */
+section {
+  padding: 80px 0; /* 위아래 여백을 주어 '뼈대'처럼 보이지 않게 함 */
 }
 
-button{
-  padding:10px 20px;
-  margin-top:20px;
-  background:#2a7a6b;
-  color:white;
-  border:none;
-  border-radius:6px;
+.section {
+  max-width: 900px;
+  margin: auto;
+  padding: 80px 20px;
 }
 
-.footer{
-  text-align:center;
-  padding:30px;
-  background:#eee;
+.section h2 {
+  margin-bottom: 20px;
+}
+
+.gallery {
+  display: flex;
+  gap: 20px;
+}
+
+.gallery img {
+  width: 50%;
+  border-radius: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  background: #2a7a6b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+.footer {
+  text-align: center;
+  padding: 30px;
+  background: #eee;
 }

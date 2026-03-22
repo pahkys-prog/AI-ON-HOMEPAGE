@@ -1,0 +1,160 @@
+/* About.css */
+
+.about-page {
+  padding: 100px 20px;
+  color: #333;
+}
+
+/* 헤드라인 */
+.about-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.sub-title {
+  color: #5bb68c;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.main-headline {
+  font-size: 42px;
+  line-height: 1.4;
+  font-weight: 800;
+}
+
+.main-headline span {
+  color: #5bb68c;
+}
+
+/* 인트로 카드 */
+.about-intro {
+  margin-bottom: 80px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.intro-card {
+  background-color: #f8f9fa;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.8;
+}
+
+.intro-focus span {
+  background: linear-gradient(to top, #d0f0e0 40%, transparent 40%);
+  font-weight: 700;
+}
+
+/* 섹션 공통 */
+.about-section {
+  margin-bottom: 100px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-title {
+  font-size: 28px;
+  margin-bottom: 40px;
+  border-left: 5px solid #5bb68c;
+  padding-left: 15px;
+}
+
+/* 교육 분야 그리드 */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.category-item {
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 30px;
+  border-radius: 15px;
+  transition: transform 0.3s;
+}
+
+.category-item:hover { transform: translateY(-5px); }
+
+.category-item .num {
+  font-size: 14px;
+  color: #5bb68c;
+  font-weight: 800;
+}
+
+.category-item h3 { margin: 15px 0; font-size: 20px; }
+
+/* 적합한 대상 */
+.target-section {
+  background-color: #f0f7f4;
+  padding: 60px 40px;
+  border-radius: 20px;
+}
+
+.target-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.target-list li {
+  font-size: 18px;
+  padding: 10px 0;
+}
+
+/* 진행 방식 Step */
+.step-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.step {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+  position: relative;
+}
+
+.step span {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: #5bb68c;
+  color: #fff;
+  border-radius: 50%;
+  line-height: 40px;
+  font-weight: 800;
+  margin-bottom: 15px;
+}
+
+/* 문의 유도 박스 */
+.cta-box {
+  max-width: 1100px;
+  margin: auto;
+  background: #333;
+  color: #fff;
+  padding: 60px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.cta-button {
+  margin-top: 30px;
+  background: #5bb68c;
+  color: #fff;
+  border: none;
+  padding: 15px 40px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 30px;
+  cursor: pointer;
+}

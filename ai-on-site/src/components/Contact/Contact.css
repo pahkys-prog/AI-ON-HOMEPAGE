@@ -1,0 +1,118 @@
+/* 전체 섹션 중앙 정렬 및 폭 고정 */
+.contact-section {
+  width: 800px;
+  margin: 0 auto 50px auto; /* 중앙 정렬 */
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* 헤더 부분 (Q&A와 동일) */
+.contact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.contact-title-btn {
+  background: none;
+  border: none;
+  font-size: 32px;
+  font-weight: 800;
+  color: #5bb68c; /* Q&A와 같은 녹색 */
+  cursor: pointer;
+  padding: 0;
+}
+
+.contact-subtitle {
+  font-size: 14px;
+  color: #888;
+}
+
+/* Contact.css */
+
+/* 상단 헤더 영역 - 아래쪽 선(border-bottom)은 제거합니다. 대신 초록색 구분선을 쓸 거니까요. */
+.contact-info-header {
+  text-align: start;
+  margin-bottom: 30px; /* 초록색 구분선과의 간격을 위해 줄입니다 */
+  border: #ddd 1px solid; /* 기존의 회색 선 유지 */
+  background-color: #f7f5f5;
+  padding: 10px 30px 30px;
+}
+
+/* 사용자님이 정의하신 초록색 구분선 - 위쪽 간격을 추가합니다. */
+.contact-divider {
+  width: 100%;
+  height: 3px;
+  background-color: #eee; /* 초록색 포인트 컬러 */
+  margin-top: 10px; /* 안내 문구와의 위쪽 간격 추가 */
+  margin-bottom: 50px; /* 기존 폼과의 아래쪽 간격 유지 */
+}
+
+/* 폼 상단 여백 제거 - 구분선이 간격을 만들어 줍니다. */
+.contact-form {
+  margin-top: 0;
+}
+
+/* 문의 폼 컨테이너 */
+.contact-container {
+  background: #fdfdfd;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.contact-form input, 
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.contact-form textarea { height: 180px; resize: none; }
+
+.contact-form-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.contact-button-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* 버튼 색상 (그림 image_bb43bb.png 참고) */
+.c-submit-btn {
+  background-color: #5bb68c !important;
+  color: white !important;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.c-close-btn {
+  background-color: #eeeeee !important; /* Q&A 닫기 버튼과 유사한 톤 */
+  color: #333 !important;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 애니메이션 */
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
