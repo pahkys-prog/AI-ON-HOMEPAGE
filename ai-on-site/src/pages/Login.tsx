@@ -25,6 +25,7 @@ export default function Login() {
       );
       alert("로그인 성공!");
       console.log(userCredential.user.email);
+      navigate("/");
     } catch (error: unknown) {
       alert("로그인 실패: " + (error as { code: string }).code);
     }
