@@ -1,5 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import "./Banner.css"; // 같은 폴더에 Banner.css 파일을 만드세요!
+import instagram from "../../assets/icons/icon-instagram.png";
+import blog from "../../assets/icons/icon-blog.png";
+import cafe from "../../assets/icons/icon-cafe.png";
+import youtube from "../../assets/icons/icon-youtube.png";
+import xIcon from "../../assets/icons/icon-X.png";
+import location from "../../assets/icons/icon-location.png";
 
 const bannerData = [
   { id: 1, type: "video", url: "/banner-1.mp4" },
@@ -13,44 +19,44 @@ const snsData = [
   {
     id: 1,
     name: "Instagram",
-    img: "src/assets/icons/icon-instagram.png",
+    img: instagram,
     color: "#63439F",
     link: "https://www.instagram.com/jeju_ai_on/",
   },
   {
     id: 2,
     name: "Blog",
-    img: "src/assets/icons/icon-blog.png",
+    img: blog,
     color: "#F4D02D",
     link: "https://blog.naver.com",
   },
   {
     id: 3,
     name: "Cafe",
-    img: "src/assets/icons/icon-cafe.png",
+    img: cafe,
     color: "#A6d453",
     link: "https://cafe.naver.com/aion2024",
   },
   {
     id: 4,
     name: "YouTube",
-    img: "src/assets/icons/icon-youtube.png",
+    img: youtube,
     color: "#db3e24",
     link: "https://www.youtube.com/@제주디지털on연구소",
   },
   {
     id: 5,
     name: "X",
-    img: "src/assets/icons/icon-X.png",
+    img: xIcon,
     color: "#0b1c36",
     link: "https://x.com",
   },
   {
     id: 6,
     name: "Location",
-    img: "src/assets/icons/icon-location.png",
+    img: location,
     color: "#3766b0",
-    link: "https://map.naver.com/p/entry/place/2070346762?placePath=/home?entry=plt&from=map&fromPanelNum=1&additionalHeight=76&timestamp=202603182248&locale=ko&svcName=map_pcv5&searchType=place&lng=126.5266586&lat=33.5152458&c=15.00,0,0,0,dh",
+    link: "...",
   },
 ];
 
