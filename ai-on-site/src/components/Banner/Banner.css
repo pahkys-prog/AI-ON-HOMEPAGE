@@ -34,6 +34,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden; /* 내부 이미지가 넘치는 것 방지 */
+  object-fit: cover;
 }
 
 /* 3. 화살표 디자인 (16px 안쪽 배치) */
