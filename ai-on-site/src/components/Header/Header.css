@@ -160,7 +160,7 @@
   display: none; /* 기본적으로는 숨김 (데스크탑에서는 보이지 않도록) */
  }
 /* --- 모바일 대응 (768px 이하) --- */
-@media (max-width: 768px, min-width: 376px) {
+@media (max-width: 768px) and (min-width: 376px) {
   .desktop-only {
     display: none !important; /* 데스크탑 메뉴와 버튼 숨김 */
   }
@@ -252,7 +252,7 @@
   .Hlogin-btn{
   padding:6px 4px;
   border:1px solid #ddd;
-  border-radius:8px;
+  border-radius:6px;
   background:white;
   cursor:pointer;
   text-decoration: none;
@@ -261,7 +261,7 @@
 .signup-btn{
   padding:6px 4px;
   border:none;
-  border-radius:8px;
+  border-radius:6px;
   background:#5bb68c;
   color:white;
   cursor:pointer;
@@ -270,7 +270,7 @@
 
 .logout-btn{
   padding:6px 4px;
-  border-radius:8px;
+  border-radius:6px;
   border:none;
   background:#eee;
   cursor:pointer;
