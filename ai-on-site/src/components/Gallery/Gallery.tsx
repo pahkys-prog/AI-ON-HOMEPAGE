@@ -1,5 +1,5 @@
-import frame1 from "../../assets/images/frame-1.png";
-import frame2 from "../../assets/images/frame-2.png";
+import frame1 from "../../assets/images/frame-11.png";
+import frame2 from "../../assets/images/frame-21.png";
 import frame3 from "../../assets/images/frame-3.png";
 
 import art1 from "../../assets/images/Art-1.gif";
