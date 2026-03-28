@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut, type User } from "firebase/auth";
-import { auth } from "../../lib/firebase";
+import { auth } from "../../firebase";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/Logo-AION.png";
 import { useNavigate } from "react-router-dom";
@@ -65,9 +65,9 @@ export default function Header() {
             {user ? (
               <>
                 {/* ✅ role 기반 관리자 링크 */}
-              {(role === "admin" || role === "manager") ? (
-                <Link to="/admin/contacts" className="user-email">
-                    {user.email} 
+                {role === "admin" || role === "manager" ? (
+                  <Link to="/admin/contacts" className="user-email">
+                    {user.email}
                   </Link>
                 ) : (
                   <span className="user-email">{user.email}</span>
