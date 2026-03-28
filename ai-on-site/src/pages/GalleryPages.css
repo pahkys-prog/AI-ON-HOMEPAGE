@@ -124,3 +124,22 @@
   height: auto;
   object-fit: contain;
 }
+
+/* GalleryArt.css에 추가 */
+.modal-artist-name {
+  font-size: 1rem;
+  color: #555; /* 약간 흐린 회색 */
+  margin-bottom: 12px;
+  font-weight: 700; /* 약간 굵게 */
+}
+
+@media (max-width: 450px) {
+  .modal-content {
+    flex-direction: column !important; /* 무조건 세로로 */
+  }
+  
+  .modal-image {
+    max-height: 250px; /* 모바일에서 이미지가 너무 길어지지 않게 조절 */
+    object-fit: contain;
+  }
+}

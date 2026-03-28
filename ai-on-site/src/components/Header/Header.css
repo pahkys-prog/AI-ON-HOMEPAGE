@@ -160,7 +160,7 @@
   display: none; /* 기본적으로는 숨김 (데스크탑에서는 보이지 않도록) */
  }
 /* --- 모바일 대응 (768px 이하) --- */
-@media (max-width: 768px) {
+@media (max-width: 768px) and (min-width: 376px) {
   .desktop-only {
     display: none !important; /* 데스크탑 메뉴와 버튼 숨김 */
   }
@@ -227,7 +227,7 @@
     padding-bottom: 10px;
   }
 }
-@media (max-width: 380px) {
+@media (max-width: 375px) {
   .desktop-only {
     display: none !important; /* 데스크탑 메뉴와 버튼 숨김 */
   }

@@ -45,6 +45,7 @@ const GalleryArt: React.FC = () => {
             <img src={selectedArt.mediaUrl} alt={selectedArt.title} />
             <div className="modal-info">
               <h2>{selectedArt.title}</h2>
+              <h3 className="modal-artist-name">작가: {selectedArt.artistName}</h3>
               <p>{selectedArt.description}</p>
               <button
                 className="close-btn"

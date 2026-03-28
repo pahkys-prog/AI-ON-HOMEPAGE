@@ -41,7 +41,7 @@ const QnA = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       // 본인의 관리자 이메일 주소로 수정하세요
-      if (user && user.email === "admin@jejuion.co.kr") {
+      if (user && user.email === "pahkys@gmail.com") {
         setIsAdmin(true);
       } else {
         setIsAdmin(false);
