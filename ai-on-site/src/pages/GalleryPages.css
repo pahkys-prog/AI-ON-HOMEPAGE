@@ -117,6 +117,7 @@
   max-height: 80vh; /* 👈 화면 높이보다 커지지 않게 제한 */
   overflow-y: auto; /* 내용이 많으면 내부 스크롤 */
   display: flex; /* 이미지와 설명을 가로로 배치하고 싶다면 */
+  flex-wrap: wrap;
   gap: 20px;
 }
 
@@ -148,9 +149,8 @@
   }
 
   .modal-content img {
-  width: 70%; /* 👈 이미지 사이즈가 너무 크면 여기서 조절! */
-  max-width: 430px;
-  max-height: 430px;
+  max-width: 420px;
+  max-height: 420px;
   object-fit: contain;
 }
 }
