@@ -138,6 +138,7 @@
   .modal-content {
     flex-direction: column !important; /* 무조건 세로로 */
     align-items: center;
+    justify-content: center;
     background: white;
     padding: 20px;
     border-radius: 12px;
