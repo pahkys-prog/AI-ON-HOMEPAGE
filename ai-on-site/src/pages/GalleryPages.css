@@ -140,18 +140,17 @@
     align-items: center;
     justify-content: center;
     background: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 12px;
     width: 80%; /* 👈 너무 크다면 여기서 폭을 조절하세요 (예: 600px) */
-    max-width: 450px;
     overflow-y: auto; /* 내용이 많으면 내부 스크롤 */
-    gap: 20px;
+    gap: 30px;
   }
 
   .modal-content img {
   width: 70%; /* 👈 이미지 사이즈가 너무 크면 여기서 조절! */
-  max-width: 350px;
-  max-height: 350px;
+  max-width: 430px;
+  max-height: 430px;
   object-fit: contain;
 }
 }
