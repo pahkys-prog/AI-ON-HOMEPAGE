@@ -5,10 +5,11 @@
   justify-content:center;
   align-items:center;
   overflow:hidden;
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
 }
 
 .welcome-image{
-  width:300px;
+  width:25%;
   animation: welcomeMove 2.5s ease forwards;
 }
 
@@ -21,6 +22,11 @@
   color:#5bb68c;
   opacity:0;
   animation: welcomeMove 2.5s ease forwards;
+}
+
+.welcome-image, .page-title{
+  z-index: 10; /* 🌟 폭죽보다 앞에 보이게 설정 */
+
 }
 
 @keyframes welcomeMove{
