@@ -35,7 +35,7 @@ export default function Login() {
       try {
       const result = await signInWithPopup(auth, googleProvider);
       console.log("구글 로그인 성공:", result.user.email);
-      alert("로그인 성공!");
+      alert("Google 로그인 성공!");
       navigate("/");
     } catch (error: unknown) {
       console.error(error);
@@ -85,8 +85,7 @@ export default function Login() {
 
           <button className="reset-btn" onClick={handlePasswordReset}>
             비밀번호 재설정
-          </button>
-        </form>
+          </button>        
 
         <div className="divider">
           <span>또는</span>
@@ -95,7 +94,7 @@ export default function Login() {
         <button className="google-btn" onClick={handleGoogleLogin}>
           Google로 로그인
         </button>
-
+        </form>
         <p className="signup-link">
           계정이 없으신가요? <Link to="/signup">회원가입</Link>
         </p>

@@ -19,10 +19,13 @@ import GalleryArt from "./pages/GalleryArt";
 import GalleryMovie from "./pages/GalleryMovie.tsx"; // .tsx 추가
 import GalleryEdu from "./pages/GalleryEdu.tsx"; // .tsx 추가
 import Copyright from "./pages/Copyright.tsx";
+import ScrollToTop from "./components/ScrollToTop";
+
 function App() {
   return (
     // ✅ Router(BrowserRouter)가 Routes 전체를 감싸고 있어야 페이지 이동이 작동합니다.
     <>
+      <ScrollToTop />
       <Header />
 
       <Routes>

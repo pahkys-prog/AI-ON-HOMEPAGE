@@ -2,10 +2,9 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Signup.css";
 // ✅ Firebase 설정 임포트 확인 (googleProvider 포함)
-import { auth, db, googleProvider } from "../firebase"; 
+import { auth, db, googleProvider } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-
 import logo from "../assets/images/Logo-AION.png";
 
 export default function Signup() {
@@ -40,22 +39,24 @@ export default function Signup() {
       return;
     }
 
-    // 2) 저작권 동의 확인 (법적 보호를 위한 필수 체크)
+    // 2) 저작권 동의 확인
     if (!form.agreeCopyright) {
       alert("저작권 정책 및 이용 약관에 동의해 주세요.");
       return;
     }
 
     try {
-      // 3) Firebase Auth 계정 생성 (앞뒤 공백 제거)
+      // 3) Firebase Auth 계정 생성
+      // 여기서 userCredential을 생성해야 'user' 변수를 사용할 수 있습니다.
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         form.email.trim(),
-        form.password.trim()
+        form.password.trim(),
       );
-      const user = userCredential.user;
+      const user = userCredential.user; // 드디어 user 정의!
 
-      // 4) Firestore 'users' 컬렉션에 추가 정보 저장
+      // 4) Firestore 'users' 컬렉션에 유저 정보 저장
+      // 회원가입 페이지이므로 getDoc이 아니라 setDoc을 써서 정보를 '저장'해야 합니다.
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name: form.name,
@@ -63,15 +64,13 @@ export default function Signup() {
         phone: form.phone,
         organization: form.organization,
         interest: form.interest,
-        agreeCopyright: true, // ✅ 동의 여부 저장
-        role: "user", // 기본 권한
+        role: "user", // 기본 권한 부여
         createdAt: serverTimestamp(),
       });
 
       console.log("회원가입 및 데이터 저장 완료");
       alert("AI-ON 회원가입을 축하드립니다!");
       navigate("/welcome");
-      
     } catch (error: unknown) {
       console.error("회원가입 에러:", error);
       const err = error as { code?: string; message?: string };
@@ -87,24 +86,35 @@ export default function Signup() {
 
   // ✅ 2. 구글 회원가입/로그인 핸들러
   const handleGoogleSignup = async () => {
+    if (!form.agreeCopyright) {
+      alert("저작권 정책 및 이용 약관에 동의해 주세요.");
+      return; // 동의하지 않았으면 여기서 함수 종료
+    }
+    
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
       // 구글 로그인 시에도 최소한의 유저 정보를 Firestore에 생성/업데이트합니다.
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        name: user.displayName || "",
-        email: user.email,
-        role: "user",
-        createdAt: serverTimestamp(),
-      }, { merge: true });
+      await setDoc(
+        doc(db, "users", user.uid),
+        {
+          uid: user.uid,
+          name: user.displayName || "",
+          email: user.email,
+          role: "user",
+          createdAt: serverTimestamp(),
+        },
+        { merge: true },
+      );
 
       alert(`${user.displayName}님, 환영합니다!`);
       navigate("/welcome");
     } catch (error: unknown) {
       console.error("구글 가입 에러:", error);
-      if ((error as { code?: string }).code !== "auth/cancelled-popup-request") {
+      if (
+        (error as { code?: string }).code !== "auth/cancelled-popup-request"
+      ) {
         alert("구글 연동 중 오류가 발생했습니다.");
       }
     }
@@ -118,12 +128,12 @@ export default function Signup() {
         <h2 className="signup-title">회원가입</h2>
 
         <form className="signup-form" onSubmit={handleSubmit}>
-          <input 
-            name="name" 
-            placeholder="이름" 
+          <input
+            name="name"
+            placeholder="이름"
             value={form.name}
-            onChange={handleChange} 
-            required 
+            onChange={handleChange}
+            required
           />
 
           <input
@@ -135,11 +145,11 @@ export default function Signup() {
             required
           />
 
-          <input 
-            name="phone" 
-            placeholder="전화번호" 
+          <input
+            name="phone"
+            placeholder="전화번호"
             value={form.phone}
-            onChange={handleChange} 
+            onChange={handleChange}
           />
 
           <input
@@ -184,30 +194,34 @@ export default function Signup() {
               onChange={handleChange}
             />
             <label htmlFor="agreeCopyright">
-              [필수] <Link to="/copyright" target="_blank">저작권 정책</Link> 및 이용 약관에 동의합니다.
+              [필수]{" "}
+              <Link to="/copyright" target="_blank">
+                저작권 정책
+              </Link>{" "}
+              및 이용 약관에 동의합니다.
             </label>
           </div>
 
           <button className="signup-button" type="submit">
             회원가입
           </button>
+
+          <div className="divider">
+            <span>또는</span>
+          </div>
+
+          <button
+            className="google-button"
+            type="button"
+            onClick={handleGoogleSignup}
+          >
+            Google로 시작하기
+          </button>
+
+          <div className="signup-footer">
+            이미 계정이 있으신가요? <Link to="/login">로그인</Link>
+          </div>
         </form>
-
-        <div className="divider">
-          <span>또는</span>
-        </div>
-
-        <button 
-          className="google-button" 
-          type="button" 
-          onClick={handleGoogleSignup}
-        >
-          Google로 시작하기
-        </button>
-
-        <div className="signup-footer">
-          이미 계정이 있으신가요? <Link to="/login">로그인</Link>
-        </div>
       </div>
     </div>
   );
