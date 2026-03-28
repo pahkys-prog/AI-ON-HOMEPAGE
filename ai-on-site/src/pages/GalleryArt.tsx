@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { GALLERY_DATA } from "../data/galleryData";
+import { artData } from "../data/gallery/index";
 import type { GalleryItem } from "../types/gallery"; // 1. 타입 import 추가 (필수!)
 import "../pages/GalleryPages.css";
 
 const GalleryArt: React.FC = () => {
   // useState에 <GalleryItem | null> 타입을 지정하여 에러 방지
   const [selectedArt, setSelectedArt] = useState<GalleryItem | null>(null);
-  const artItems = GALLERY_DATA.filter((item) => item.category === "Art");
+  const artItems = artData;
 
   return (
     <div className="gallery-container">

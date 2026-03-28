@@ -20,8 +20,37 @@ import GalleryMovie from "./pages/GalleryMovie.tsx"; // .tsx 추가
 import GalleryEdu from "./pages/GalleryEdu.tsx"; // .tsx 추가
 import Copyright from "./pages/Copyright.tsx";
 import ScrollToTop from "./components/ScrollToTop";
+// App.tsx 상단에 추가
+import { useEffect } from "react";
+import { onAuthStateChanged} from "firebase/auth";
+import { auth, db } from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { useAuthStore } from "./store/useAuthStore";
 
 function App() {
+  const { setUser, clearAuth } = useAuthStore();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        // Firestore에서 유저 권한(role) 가져오기
+        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+        let userRole = "user"; // 기본값
+        
+        if (userDoc.exists()) {
+          userRole = userDoc.data().role;
+        }
+        
+        // Zustand 스토어에 저장 (이제 전역에서 사용 가능!)
+        setUser(currentUser, userRole);
+      } else {
+        clearAuth();
+      }
+    });
+    
+    return () => unsubscribe();
+  }, [setUser, clearAuth]);
+
   return (
     // ✅ Router(BrowserRouter)가 Routes 전체를 감싸고 있어야 페이지 이동이 작동합니다.
     <>

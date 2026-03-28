@@ -1,10 +1,10 @@
 import React from "react";
-import { GALLERY_DATA } from "../data/galleryData";
+import {movieData } from "../data/gallery/index";
 import "../pages/GalleryPages.css";
 
 const GalleryMovie: React.FC = () => {
   // Movie 카테고리만 필터링
-  const movieItems = GALLERY_DATA.filter((item) => item.category === "Movie");
+  const movieItems = movieData;
 
   return (
     <div className="gallery-container">
