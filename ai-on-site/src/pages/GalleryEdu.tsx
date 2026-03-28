@@ -1,10 +1,11 @@
-import React from "react";
-import { GALLERY_DATA } from "../data/galleryData";
+import React, { useState } from "react";
+import { eduData } from "../data/gallery/index";
+import type { GalleryItem } from "../types/gallery";
 import "../pages/GalleryPages.css";
 
 const GalleryEdu: React.FC = () => {
-  // Edu 카테고리만 필터링
-  const eduItems = GALLERY_DATA.filter((item) => item.category === "Edu");
+  const [selectedEdu, setSelectedEdu] = useState<GalleryItem | null>(null);
+  const eduItems = eduData;
 
   return (
     <div className="gallery-container">
@@ -21,8 +22,12 @@ const GalleryEdu: React.FC = () => {
       </header>
 
       <main className="list-layout">
-        {eduItems.map((item) => (
-          <section key={item.id} className="horizontal-card">
+        {eduItems.map((item: GalleryItem) => (
+          <section
+            key={item.id}
+            onClick={() => setSelectedEdu(item)}
+            className="horizontal-card"
+          >
             <div className="media-box">
               {/* 교육용은 주로 이미지(thumbnail)를 크게 보여주도록 설정 */}
               {item.thumbnail ? (
@@ -37,6 +42,13 @@ const GalleryEdu: React.FC = () => {
             </div>
           </section>
         ))}
+        {selectedEdu && (
+          <div className="modal">
+            <h3>{selectedEdu.title}</h3>
+            <p>{selectedEdu.description}</p>
+            <button onClick={() => setSelectedEdu(null)}>닫기</button>
+          </div>
+        )}
       </main>
     </div>
   );

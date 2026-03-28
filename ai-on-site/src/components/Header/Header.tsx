@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/images/Logo-AION.png";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export default function Header() {
+  const { role } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
@@ -62,9 +64,10 @@ export default function Header() {
           <div className="header-buttons">
             {user ? (
               <>
-                {user.email === "pahkys@gmail.com" ? (
-                  <Link to="/admin/contacts" className="user-email">
-                    {user.email}
+                {/* ✅ role 기반 관리자 링크 */}
+              {(role === "admin" || role === "manager") ? (
+                <Link to="/admin/contacts" className="user-email">
+                    {user.email} 
                   </Link>
                 ) : (
                   <span className="user-email">{user.email}</span>
