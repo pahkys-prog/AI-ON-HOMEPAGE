@@ -102,7 +102,7 @@
   left: 0;
   width: 100vw; /* 화면 꽉 차게 */
   height: 100vh; /* 화면 꽉 차게 */
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,19 +111,21 @@
 
 .modal-content {
   background: white;
-  padding: 20px;
+  padding: 4%;
   border-radius: 12px;
   width: 80%; /* 👈 너무 크다면 여기서 폭을 조절하세요 (예: 600px) */
   max-width: 800px;
   max-height: 80vh; /* 👈 화면 높이보다 커지지 않게 제한 */
   overflow-y: auto; /* 내용이 많으면 내부 스크롤 */
   display: flex; /* 이미지와 설명을 가로로 배치하고 싶다면 */
-  gap: 20px;
+  justify-content: center;
+  gap: 30px;
 }
 
 .modal-content img {
-  width: 50%; /* 👈 이미지 사이즈가 너무 크면 여기서 조절! */
+  width: 60%; /* 👈 이미지 사이즈가 너무 크면 여기서 조절! */
   height: auto;
+  max-height: 500px;
   object-fit: contain;
 }
 
