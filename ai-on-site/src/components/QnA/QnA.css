@@ -2,7 +2,7 @@
 .qna-section {
   padding: 80px 20px;
   max-width: 800px; /* 폭 고정 */
-  margin: 0 auto !important; /* 중앙 정렬 강제 */
+  margin: 40px auto !important; /* 중앙 정렬 강제 */
   box-sizing: border-box;
 }
 

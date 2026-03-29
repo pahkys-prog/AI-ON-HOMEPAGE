@@ -243,25 +243,25 @@
   }
 
   .bar {
-    width: 24px;
+    width: 20px;
     height: 2px;
     background-color: #333;
     transition: 0.3s;
   }
 
   .Hlogin-btn{
-  padding:6px 8px;
+  padding:6px 4px;
   border:1px solid #ddd;
-  border-radius:8px;
+  border-radius:6px;
   background:white;
   cursor:pointer;
   text-decoration: none;
 }
 
 .signup-btn{
-  padding:6px 8px;
+  padding:6px 4px;
   border:none;
-  border-radius:8px;
+  border-radius:6px;
   background:#5bb68c;
   color:white;
   cursor:pointer;
@@ -269,8 +269,8 @@
 }
 
 .logout-btn{
-  padding:6px 8px;
-  border-radius:8px;
+  padding:6px 4px;
+  border-radius:6px;
   border:none;
   background:#eee;
   cursor:pointer;
