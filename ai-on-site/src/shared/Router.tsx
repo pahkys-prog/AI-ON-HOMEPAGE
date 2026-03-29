@@ -12,7 +12,7 @@ import Terms from "../pages/Terms";
 import ContactForm from "../components/Contact/ContactForm";
 import ContactList from "../components/Contact/ContactList";
 import Copyright from "../pages/Copyright";
-import ProtectedRoute from "../components/ProtectedRoute"; 
+import {ProtectedRoute} from "../components/ProtectedRoute"; 
 
 const Router = () => {
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./QnA.css";
-import { db } from "../../firebase"; // firebase.ts에서 db와 auth를 모두 가져옴
+import { db, auth } from "../../firebase";
 import {
   collection,
   addDoc,
@@ -36,11 +36,20 @@ const QnA = () => {
   const [viewingId, setViewingId] = useState<string | null>(null);
   const [checkPwd, setCheckPwd] = useState("");
 
-  // ✅ 1. Zustand 스토어에서 권한(role) 가져오기
+  // Zustand 스토어에서 권한(role) 가져오기
   const { role } = useAuthStore();
   const isStaff = role === "admin" || role === "manager";
 
-  // ✅ 2. 실시간 질문 목록 불러오기
+  // ✅ [수정] Q&A 창 열기 전 로그인 체크
+  const handleToggleOpen = () => {
+    if (!auth.currentUser) {
+      alert("Q&A 이용을 위해 로그인이 필요합니다.");
+      return;
+    }
+    setIsOpen(!isOpen);
+  };
+
+  // 실시간 질문 목록 불러오기
   useEffect(() => {
     const q = query(collection(db, "qna"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -64,7 +73,7 @@ const QnA = () => {
     return () => unsubscribe();
   }, []);
 
-  // ✅ 3. 질문 등록 함수
+  // 질문 등록 함수
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) return alert("제목과 내용을 입력해주세요.");
@@ -91,7 +100,7 @@ const QnA = () => {
     }
   };
 
-  // ✅ 4. 관리자 답변 등록 함수
+  // 관리자 답변 등록 함수
   const handleAdminReply = async (docId: string, replyText: string) => {
     try {
       const docRef = doc(db, "qna", docId);
@@ -106,12 +115,10 @@ const QnA = () => {
   };
 
   const handleItemClick = (q: Question) => {
-    // ✅ 관리자/매니저라면 비밀글이라도 비밀번호 확인 없이 바로 볼 수 있게 배려
     if (isStaff) {
       alert(`[운영진 확인]\n제목: ${q.title}\n내용: ${q.content}`);
       return;
     }
-
     if (!q.isPrivate) {
       alert(`[내용]\n${q.content}`);
       return;
@@ -136,9 +143,9 @@ const QnA = () => {
   const totalPages = Math.ceil(questions.length / itemsPerPage);
 
   return (
-    <section className="contact-section layout-center">
-      <div className="contact-header">
-        <button className="qa-title-btn" onClick={() => setIsOpen(!isOpen)}>
+    <section className="qna-section layout-center">
+      <div className="qna-header">
+        <button className="qa-title-btn" onClick={handleToggleOpen}>
           Q&A
         </button>
         <p className="qa-subtitle">클릭하시면 문의 창과 목록이 열립니다.</p>
@@ -146,62 +153,65 @@ const QnA = () => {
 
       {isOpen && (
         <div className="qa-container animate-fade-in">
-          <form className="qa-form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="질문 제목을 입력하세요"
-              aria-label="질문 제목"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <textarea
-              placeholder="질문 내용을 입력하세요 (최대 1200자)"
-              aria-label="질문 내용"
-              maxLength={1200}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-            <div className="form-footer">
-              <div className="footer-left">
-                <label className="private-check">
-                  <input
-                    type="checkbox"
-                    checked={isPrivate}
-                    onChange={(e) => setIsPrivate(e.target.checked)}
-                  />{" "}
-                  비밀글
-                </label>
-                {isPrivate && (
-                  <input
-                    type="password"
-                    placeholder="비밀번호 4자리"
-                    aria-label="비밀글 비밀번호"
-                    maxLength={4}
-                    className="pwd-input"
-                    value={password}
-                    onChange={(e) =>
-                      setPassword(e.target.value.replace(/[^0-9]/g, ""))
-                    }
-                  />
-                )}
+          {/* ✅ 로그인 된 경우에만 폼을 보여줌 */}
+          {auth.currentUser ? (
+            <form className="qa-form" onSubmit={handleSubmit}>
+              <label htmlFor="question">질문</label>
+              <input id="question"
+                type="text"
+                placeholder="질문 제목을 입력하세요"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <textarea
+                placeholder="질문 내용을 입력하세요 (최대 1200자)"
+                maxLength={1200}
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+              <div className="form-footer">
+                <div className="footer-left">
+                  <label className="private-check">
+                    <input id="check"
+                      type="checkbox"
+                      checked={isPrivate}
+                      onChange={(e) => setIsPrivate(e.target.checked)}
+                      aria-label="비밀글 여부 선택"
+                    />{" "}
+                    비밀글
+                  </label>
+                  {isPrivate && (
+                    <input
+                      type="password"
+                      placeholder="비밀번호 4자리"
+                      maxLength={4}
+                      className="pwd-input"
+                      value={password}
+                      onChange={(e) =>
+                        setPassword(e.target.value.replace(/[^0-9]/g, ""))
+                      }
+                      title="비밀번호 4자리 입력" // 👈 추가
+                      aria-label="비밀번호 4자리" // 👈 추가
+                    />
+                  )}
+                </div>
+                <div className="button-group">
+                  <button
+                    type="button"
+                    className="close-btn"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    닫기
+                  </button>
+                  <button type="submit" className="submit-btn">
+                    등록하기
+                  </button>
+                </div>
               </div>
-              <div className="button-group">
-                <button
-                  type="button"
-                  className="close-btn"
-                  onClick={() => setIsOpen(false)}
-                >
-                  닫기
-                </button>
-                <button type="submit" className="submit-btn">
-                  등록하기
-                </button>
-              </div>
-            </div>
-            <p className="helper-text">
-              * 비밀글 선택 시 관리자와 작성자 본인만 열람 가능합니다.
-            </p>
-          </form>
+            </form>
+          ) : (
+            <div className="login-notice">로그인이 필요한 서비스입니다.</div>
+          )}
 
           <div className="qa-list">
             <h3 className="list-title">최근 질문 목록</h3>
@@ -223,7 +233,6 @@ const QnA = () => {
                       <span className="q-date">{q.date}</span>
                     </div>
 
-                    {/* ✅ 관리자이고 답변이 아직 없을 때만 버튼 표시 */}
                     {isStaff && !q.answer && (
                       <div
                         className="admin-controls"
@@ -231,14 +240,6 @@ const QnA = () => {
                       >
                         <button
                           className="admin-reply-btn"
-                          style={{
-                            backgroundColor: "#5bb68c",
-                            color: "white",
-                            border: "none",
-                            padding: "5px 10px",
-                            borderRadius: "4px",
-                            cursor: "pointer",
-                          }}
                           onClick={(e) => {
                             e.stopPropagation();
                             const reply = prompt("운영자 답변을 입력하세요:");
@@ -290,10 +291,8 @@ const QnA = () => {
         <div className="modal-overlay">
           <div className="pwd-modal">
             <h4>비밀번호 확인</h4>
-            <p>작성 시 설정한 숫자 4자리를 입력하세요.</p>
             <input
               type="password"
-              aria-label="비밀번호 확인 입력"
               maxLength={4}
               value={checkPwd}
               onChange={(e) => setCheckPwd(e.target.value)}

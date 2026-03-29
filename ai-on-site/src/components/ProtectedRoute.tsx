@@ -1,24 +1,27 @@
-import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAuthStore } from "../store/useAuthStore";
+import { auth } from "../firebase";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 
-interface Props {
-  children: React.ReactNode;
-}
+export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(auth.currentUser);
 
-const ProtectedRoute: React.FC<Props> = ({ children }) => {
-  const { user } = useAuthStore(); // Zustand에서 유저 상태 가져오기
+  useEffect(() => {
+    // 🌟 Firebase가 "이 사람 로그인 했어!"라고 확답 줄 때까지 기다립니다.
+    const unsubscribe = onAuthStateChanged(auth, (fbUser) => {
+      setUser(fbUser);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
-  // 만약 로그인 체크 중이라면 아무것도 안 보여주거나 로딩 스피너를 보여줍니다.
+  if (loading) return <div>잠시만 기다려주세요... (로딩 중)</div>;
 
   if (!user) {
-    // 로그인 안 했으면 알림창 띄우고 로그인 페이지로!
-    alert("회원전용 서비스입니다. 로그인 후 이용해 주세요.");
-    return <Navigate to="/login" replace />;
+    alert("로그인이 필요한 페이지입니다!");
+    return <Navigate replace to="/login" />;
   }
 
-  // 로그인 했으면 통과!
   return <>{children}</>;
 };
-
-export default ProtectedRoute;
