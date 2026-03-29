@@ -10,9 +10,10 @@
 .contact-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  margin-top: 40px
-  margin-bottom: 10px;
+  align-items: flex-end; /* 문구 위치 조정 */
+  margin-bottom: 40px;
+  border-bottom: 2px solid #5bb68c; /* 헤더 하단 선 추가 */
+  padding-bottom: 10px;
 }
 
 .contact-title-btn {
