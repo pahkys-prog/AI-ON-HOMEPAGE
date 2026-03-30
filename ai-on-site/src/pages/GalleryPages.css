@@ -111,7 +111,7 @@
 
 .modal-content {
   background: white;
-  padding: 4%;
+  padding: 2%;
   border-radius: 12px;
   width: 80%; /* 👈 너무 크다면 여기서 폭을 조절하세요 (예: 600px) */
   max-width: 800px;

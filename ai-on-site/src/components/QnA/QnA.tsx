@@ -157,13 +157,16 @@ const QnA = () => {
           {auth.currentUser ? (
             <form className="qa-form" onSubmit={handleSubmit}>
               <label htmlFor="question">질문</label>
-              <input id="question"
+              <input
+                id="question"
                 type="text"
                 placeholder="질문 제목을 입력하세요"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+              <label htmlFor="content">내용</label>
               <textarea
+                id="content"
                 placeholder="질문 내용을 입력하세요 (최대 1200자)"
                 maxLength={1200}
                 value={content}
@@ -172,7 +175,8 @@ const QnA = () => {
               <div className="form-footer">
                 <div className="footer-left">
                   <label className="private-check">
-                    <input id="check"
+                    <input
+                      id="check"
                       type="checkbox"
                       checked={isPrivate}
                       onChange={(e) => setIsPrivate(e.target.checked)}
@@ -291,7 +295,11 @@ const QnA = () => {
         <div className="modal-overlay">
           <div className="pwd-modal">
             <h4>비밀번호 확인</h4>
+            <label htmlFor="pwd-check" style={{ display: "none" }}>
+              비밀번호 입력
+            </label>
             <input
+              id="pwd-check"
               type="password"
               maxLength={4}
               value={checkPwd}

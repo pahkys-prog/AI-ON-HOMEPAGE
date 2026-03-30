@@ -8,7 +8,9 @@ import Footer from "./components/Footer/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import Router from "./shared/Router"; // 👈 새로 만든 라우터를 불러옵니다.
 
+
 function App() {
+
   const { setUser, clearAuth } = useAuthStore();
 
   useEffect(() => {
@@ -34,12 +36,13 @@ function App() {
       <ScrollToTop />
       <Header />
       
-      {/* 알맹이(페이지)는 Router가 주소에 맞춰서 갈아 끼워줍니다. */}
       <Router /> 
 
       <Footer />
     </>
   );
+
+  
 }
 
 export default App;
