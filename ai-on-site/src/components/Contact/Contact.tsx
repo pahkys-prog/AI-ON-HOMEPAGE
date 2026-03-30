@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useNavigate } from "react-router-dom";
 import "./Contact.css";
 
 // ✅ 실제 사용할 ContactForm import
@@ -8,11 +10,16 @@ import ContactForm from "./ContactForm";
 const Contact = () => {
   const location = useLocation();
 
+  const { user } = useAuthStore();
+  const navigate = useNavigate();
+
+  
   // 1. 초기값 설정 (ESLint 경고 해결을 위해 선언부에서 바로 체크)
   const [isOpen, setIsOpen] = useState(location.state?.openContact || false);
 
   useEffect(() => {
     // 2. 스크롤 이동 로직
+
     if (location.state?.openContact) {
       const contactSection = document.getElementById("contact");
       if (contactSection) {
@@ -26,7 +33,14 @@ const Contact = () => {
       <div className="contact-header">
         <button
           className="contact-title-btn"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            if (!user) {
+              alert("로그인이 필요한 서비스입니다.");
+              navigate("/login");
+              return;
+            }
+            setIsOpen(!isOpen);
+          }}
         >
           Contact Us
         </button>
@@ -67,10 +81,11 @@ const Contact = () => {
                 닫기
               </button>
               {/* ✅ form 외부의 버튼이 제출을 수행하려면 form의 id와 연결(form="...")해야 합니다. */}
-              <button 
-                type="submit" 
-                form="contact-form-element" 
+              <button
+                type="submit"
+                form="contact-form-element"
                 className="c-submit-btn"
+                disabled={!user}
               >
                 문의 보내기
               </button>

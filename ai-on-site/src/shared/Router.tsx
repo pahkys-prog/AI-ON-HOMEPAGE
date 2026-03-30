@@ -12,13 +12,21 @@ import Terms from "../pages/Terms";
 import ContactForm from "../components/Contact/ContactForm";
 import ContactList from "../components/Contact/ContactList";
 import Copyright from "../pages/Copyright";
-import {ProtectedRoute} from "../components/ProtectedRoute"; 
+import About from "../components/About/About";
+import Business from "../components/Business/Business";
+import Gallery from "../components/Gallery/Gallery";
+import Contact from "../components/Contact/Contact";
 
 const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      
+      {/*Header nav 관련*/}
+      <Route path="/about" element={<About />} />
+      <Route path="/business" element={<Business />} />
+      <Route path="/gallery" element={<Gallery />} />
+      <Route path="/contact" element={<Contact />} />
+
       {/* 갤러리 상세 페이지들 */}
       <Route path="/gallery/art" element={<GalleryArt />} />
       <Route path="/gallery/movie" element={<GalleryMovie />} />
@@ -34,11 +42,7 @@ const Router = () => {
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/copyright" element={<Copyright />} />
-
-      {/* 로그인이 필요한 페이지 예시 (추후 ProtectedRoute로 감싸기) */}
-      <Route path="/contact-form" element={<ProtectedRoute>
-          <ContactForm />
-        </ProtectedRoute>} />
+      <Route path="/contact-form" element={<ContactForm />} />
       <Route path="/admin/contacts" element={<ContactList />} />
     </Routes>
   );
