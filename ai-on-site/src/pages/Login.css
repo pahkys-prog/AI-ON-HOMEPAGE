@@ -1,7 +1,7 @@
 .login-wrapper{
   display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:center; 
   min-height:100vh;
 }
 
@@ -15,11 +15,12 @@
 }
 
 .login-card input{
-  width:94%;
+  width:100%;
   padding:14px;
-  margin-bottom:20px;
+  margin:10px 0;
   border-radius:10px;
   border:1px solid #ddd;
+  box-sizing: border-box;
 }
 
 .login-btn{
@@ -31,7 +32,7 @@
   color:white;
   font-weight:bold;
   cursor:pointer;
-   margin-bottom:20px;
+  margin-bottom:10px;
 }
 
 .reset-btn{
@@ -40,7 +41,9 @@
   border-radius:10px;
   border:1px solid #ddd;
   background:#f5f5f5;
+  color: #888;
   cursor:pointer;
+  margin-bottom: 10px;
 }
 
 .divider span {
@@ -55,6 +58,8 @@
   padding:12px;
   border-radius:10px;
   border:1px solid #ddd;
+  margin-bottom: 20px;
   background:white;
+  color: #888;
   cursor:pointer;
 }

@@ -12,6 +12,7 @@
 
   display: flex;
   justify-content: center;
+  align-items: center;
   position: sticky; /* 스크롤 시에도 상단 고정 */
   top: 0;
   z-index: 1000;   /* 드롭다운이나 배너보다 위에 오도록 설정 */
@@ -59,6 +60,18 @@
   text-decoration: none;
 }
 
+.Hlogin-btn:hover,
+.signup-btn:hover {
+  transform: translateY(-2px); /* 살짝 위로 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* 아래 그림자 */
+}
+
+.Hlogin-btn:active,
+.signup-btn:active {
+  transform: translateY(-1px); /* 살짝 내려옴 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
 .user-email{
   margin-right:16px;
   font-size:14px;
@@ -67,10 +80,11 @@
 
 .logout-btn{
   padding:8px 16px;
+  border:1px solid #ddd;
   border-radius:8px;
-  border:none;
-  background:#eee;
+  background:#ddd;
   cursor:pointer;
+  text-decoration: none;
 }
 /* 메뉴 전체 컨테이너 */
 .nav-menu {

@@ -1,8 +1,8 @@
 /* 전체 섹션 중앙 정렬 및 폭 고정 */
 .contact-section {
   max-width: 800px;
-  margin: 50px auto; /* 중앙 정렬 */
-  padding: 0 20px;
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 80px 20px;
   box-sizing: border-box;
 }
 

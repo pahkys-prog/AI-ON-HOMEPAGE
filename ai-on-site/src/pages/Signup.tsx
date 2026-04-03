@@ -90,7 +90,7 @@ export default function Signup() {
       alert("저작권 정책 및 이용 약관에 동의해 주세요.");
       return; // 동의하지 않았으면 여기서 함수 종료
     }
-    
+
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
@@ -217,11 +217,10 @@ export default function Signup() {
           >
             Google로 시작하기
           </button>
-
-          <div className="signup-footer">
-            이미 계정이 있으신가요? <Link to="/login">로그인</Link>
-          </div>
         </form>
+        <p className="signup-footer">
+          이미 계정이 있으신가요? <Link to="/login">로그인</Link>
+        </p>
       </div>
     </div>
   );

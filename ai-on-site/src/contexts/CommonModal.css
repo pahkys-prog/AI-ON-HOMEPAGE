@@ -1,0 +1,59 @@
+/* 1. 바깥 배경 (가장 중요: z-index를 높여서 배너 위로 올림) */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 80%; height: 80%;
+  background: #f7f9fc; /* 배경을 어둡게 해서 모달을 띄움 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999      /* 어떤 것보다 위에 있어야 함 */
+}
+
+/* 2. 모달 하얀 상자 (근본적인 디자인) */
+.modal-container {
+  background-color: #ffffff ; /* 무조건 흰색! */
+  width: 90%;
+  max-width: 420px;
+  padding: 2%;
+  border-radius: 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;           /* 모든 요소 중앙 정렬 */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  animation: modalSlideUp 0.3s ease-out;
+}
+
+/* 3. 제목 스타일 (안으로 들어옴) */
+.modal-title {
+  margin: 10px 0 20px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+/* 4. 아이콘 원형 데코 */
+.modal-icon-circle {
+  width: 60px; height: 60px;
+  background: #f8f9fa;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+/* 5. 우측 상단 X 버튼 */
+.modal-close-x {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: none; border: none;
+  font-size: 1.5rem; cursor: pointer; color: #aaa;
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

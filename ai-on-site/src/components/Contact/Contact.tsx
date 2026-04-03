@@ -29,7 +29,7 @@ const Contact = () => {
   }, [location.state]);
 
   return (
-    <section id="contact" className="contact-section">
+    <section id="contact" className="contact-section ">
       <div className="contact-header">
         <button
           className="contact-title-btn"
