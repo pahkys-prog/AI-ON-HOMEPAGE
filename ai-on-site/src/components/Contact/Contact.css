@@ -26,6 +26,10 @@
   padding: 0;
 }
 
+.contact-title-btn:hover {
+  transform: scale(1.05);
+}
+
 .contact-subtitle {
   font-size: 14px;
   color: #888;

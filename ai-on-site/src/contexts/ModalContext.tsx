@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useState, useContext, type ReactNode } from "react";
+import { createContext, useState, useContext, type ReactNode } from "react";
 
 // 1. 내부용 모달 뼈대
 const CommonModal = ({ 

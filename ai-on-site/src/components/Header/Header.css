@@ -282,14 +282,14 @@
   text-decoration: none;
 }
 
-.logout-btn{
+.Hlogout-btn{
   padding:6px 4px;
+  border:1px solid #ddd;
   border-radius:6px;
-  border:none;
-  background:#eee;
+  background:white;
   cursor:pointer;
+  text-decoration: none;
 }
-
   /* 햄버거 X자 애니메이션 */
   .bar.open:nth-child(1) { transform: translateY(8px) rotate(45deg); }
   .bar.open:nth-child(2) { opacity: 0; }

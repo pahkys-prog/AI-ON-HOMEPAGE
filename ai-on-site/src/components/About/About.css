@@ -90,4 +90,6 @@
 
 .more-btn:hover {
  transform: scale(1.1);
+ box-shadow: #ddd 0px 10px 20px;
+ transition: all 0.3s;
 }

@@ -85,25 +85,20 @@ section {
 button {
   padding: 10px 20px;
   margin-top: 20px;
-  background: #2a7a6b;
+  background: #5bb68c;
   color: white;
   border: none;
   border-radius: 6px;
 }
 
-button:hover{
-  transform: translateY(-2px); /* 살짝 위로 */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* 아래 그림자 */
-}
-
-button:active {
-  transform: translateY(-1px); /* 살짝 내려옴 */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
 input:focus {
   outline: none;
-  border-color: #4f46e5;
+  border-color: #333;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #333;
 }
 
 .footer {
