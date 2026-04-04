@@ -60,13 +60,12 @@
 .signup-footer {
   text-align: center;
   margin-top: 20px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .signup-footer a {
   color: #4f46e5;
-  text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .signup-logo {
@@ -105,13 +104,10 @@
   border-radius: 8px;
   border: 1px solid #ddd;
   background: white;
+  color: #888;
   font-size: 14px;
   cursor: pointer;
   transition: background 0.2s;
-}
-
-.google-button:hover {
-  background: #f7f7f7;
 }
 
 .signup-agreement {

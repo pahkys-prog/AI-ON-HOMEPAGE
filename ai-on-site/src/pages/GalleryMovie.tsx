@@ -9,7 +9,7 @@ const GalleryMovie: React.FC = () => {
   return (
     <div className="gallery-container">
       <header className="gallery-header">
-        <h1 style={{ color: "#5bb68c" }}>Contents Creat</h1>
+        <h1>Contents Creat</h1>
         <div className="copyright-alert-banner">
           <p>
             <span className="icon">⚠️</span>본 갤러리의 모든 작품은 저작권법의

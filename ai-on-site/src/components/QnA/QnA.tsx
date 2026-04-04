@@ -12,6 +12,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useAuthStore } from "../../store/useAuthStore";
+import { useNavigate } from "react-router-dom"; // 페이지 이동을 위해 추가
 
 interface Question {
   id: string;
@@ -24,6 +25,7 @@ interface Question {
 }
 
 const QnA = () => {
+  const navigate = useNavigate(); // 로그인 페이지 이동용
   const [isOpen, setIsOpen] = useState(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [title, setTitle] = useState("");
@@ -36,82 +38,62 @@ const QnA = () => {
   const [viewingId, setViewingId] = useState<string | null>(null);
   const [checkPwd, setCheckPwd] = useState("");
 
-  // Zustand 스토어에서 권한(role) 가져오기
   const { role } = useAuthStore();
   const isStaff = role === "admin" || role === "manager";
 
-  // ✅ [수정] Q&A 창 열기 전 로그인 체크
+  // ✅ [변경] 이제 로그인 체크 없이 누구나 Q&A 목록을 열 수 있습니다.
   const handleToggleOpen = () => {
-    if (!auth.currentUser) {
-      alert("Q&A 이용을 위해 로그인이 필요합니다.");
-      return;
-    }
     setIsOpen(!isOpen);
   };
 
-  // 실시간 질문 목록 불러오기
+  // --- 데이터 로딩 및 답변 등록 로직 (기존과 동일) ---
   useEffect(() => {
     const q = query(collection(db, "qna"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const qnaArray: Question[] = [];
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
+      
+      querySnapshot.forEach((docSnap) => { // 여기 변수명을 docSnap으로 확인!
+        const data = docSnap.data();
+        
         qnaArray.push({
-          id: doc.id,
-          title: data.title,
-          content: data.content,
-          isPrivate: data.isPrivate,
-          password: data.password,
-          date:
-            data.createdAt?.toDate().toLocaleDateString() ||
-            new Date().toLocaleDateString(),
-          answer: data.answer,
+          id: docSnap.id, // 이제 에러 없이 docSnap.id를 찾을 수 있습니다.
+          title: data.title || "",
+          content: data.content || "",
+          isPrivate: data.isPrivate ?? false,
+          password: data.password || "",
+          answer: data.answer || "",
+          date: data.createdAt?.toDate().toLocaleDateString() || new Date().toLocaleDateString(),
         });
       });
+      
       setQuestions(qnaArray);
     });
     return () => unsubscribe();
   }, []);
 
-  // 질문 등록 함수
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) return alert("제목과 내용을 입력해주세요.");
-    if (isPrivate && password.length !== 4)
-      return alert("비밀번호 4자리를 입력해주세요.");
+    if (isPrivate && password.length !== 4) return alert("비밀번호 4자리를 입력해주세요.");
 
     try {
       await addDoc(collection(db, "qna"), {
-        title,
-        content,
-        isPrivate,
+        title, content, isPrivate,
         password: isPrivate ? password : "",
         createdAt: serverTimestamp(),
         answer: "",
         status: "waiting",
       });
-      setTitle("");
-      setContent("");
-      setIsPrivate(false);
-      setPassword("");
+      setTitle(""); setContent(""); setIsPrivate(false); setPassword("");
       alert("질문이 안전하게 등록되었습니다!");
-    } catch (error) {
-      console.error("Firebase 저장 에러:", error);
-    }
+    } catch (error) { console.error(error); }
   };
 
-  // 관리자 답변 등록 함수
   const handleAdminReply = async (docId: string, replyText: string) => {
     try {
-      const docRef = doc(db, "qna", docId);
-      await updateDoc(docRef, {
-        answer: replyText,
-        status: "done",
-      });
+      await updateDoc(doc(db, "qna", docId), { answer: replyText, status: "done" });
       alert("답변이 등록되었습니다!");
-    } catch (error) {
-      console.error("답변 등록 에러:", error);
-    }
+    } catch (error) { console.error(error); }
   };
 
   const handleItemClick = (q: Question) => {
@@ -126,164 +108,99 @@ const QnA = () => {
     setViewingId(q.id);
   };
 
-  const verifyPassword = () => {
-    const target = questions.find((q) => q.id === viewingId);
-    if (target?.password === checkPwd) {
-      alert(`[비밀문의 내용]\n${target.content}`);
-      setViewingId(null);
-      setCheckPwd("");
-    } else {
-      alert("비밀번호가 틀렸습니다.");
-    }
-  };
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = questions.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(questions.length / itemsPerPage);
 
   return (
-    <section className="qna-section layout-center">
+    <section className="qna-section">
       <div className="qna-header">
-        <button className="qa-title-btn" onClick={handleToggleOpen}>
-          Q&A
-        </button>
-        <p className="qa-subtitle">클릭하시면 문의 창과 목록이 열립니다.</p>
+        <button className="qa-title-btn" onClick={handleToggleOpen}>Q&A</button>
+        <p className="qa-subtitle">로그인 없이도 문의 목록을 확인할 수 있습니다.</p>
       </div>
 
       {isOpen && (
         <div className="qa-container animate-fade-in">
-          {/* ✅ 로그인 된 경우에만 폼을 보여줌 */}
+          {/* ✅ [변경] 로그인 상태에 따른 상단 영역 조건부 렌더링 */}
           {auth.currentUser ? (
             <form className="qa-form" onSubmit={handleSubmit}>
-              <label htmlFor="question">질문</label>
-              <input
-                id="question"
-                type="text"
-                placeholder="질문 제목을 입력하세요"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <label htmlFor="content">내용</label>
-              <textarea
-                id="content"
-                placeholder="질문 내용을 입력하세요 (최대 1200자)"
-                maxLength={1200}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
+             
+              <input aria-label="질문제목" type="text" placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)} />
+          
+              <textarea aria-label="상세 내용" placeholder="내용을 입력하세요" value={content} onChange={(e) => setContent(e.target.value)} />
               <div className="form-footer">
                 <div className="footer-left">
-                  <label className="private-check">
-                    <input
-                      id="check"
-                      type="checkbox"
-                      checked={isPrivate}
-                      onChange={(e) => setIsPrivate(e.target.checked)}
-                      aria-label="비밀글 여부 선택"
-                    />{" "}
-                    비밀글
-                  </label>
-                  {isPrivate && (
-                    <input
-                      type="password"
-                      placeholder="비밀번호 4자리"
-                      maxLength={4}
-                      className="pwd-input"
-                      value={password}
-                      onChange={(e) =>
-                        setPassword(e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                      title="비밀번호 4자리 입력" // 👈 추가
-                      aria-label="비밀번호 4자리" // 👈 추가
-                    />
-                  )}
+                  <label><input type="checkbox" checked={isPrivate} onChange={(e) => setIsPrivate(e.target.checked)} /> 비밀글</label>
+                  {isPrivate && <input type="password" placeholder="4자리" maxLength={4} value={password} onChange={(e) => setPassword(e.target.value.replace(/[^0-9]/g, ""))} />}
                 </div>
                 <div className="button-group">
-                  <button
-                    type="button"
-                    className="close-btn"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    닫기
-                  </button>
-                  <button type="submit" className="submit-btn">
-                    등록하기
-                  </button>
+                  <button type="button" className="close-btn" onClick={() => setIsOpen(false)}>닫기</button>
+                  <button type="submit" className="submit-btn">등록하기</button>
                 </div>
               </div>
             </form>
           ) : (
-            <div className="login-notice">로그인이 필요한 서비스입니다.</div>
+            /* ✅ 비로그인 유저에게 보여줄 로그인 유도 카드 */
+            <div className="login-prompt-card" style={{ 
+              padding: '30px', textAlign: 'center', background: '#fdfdfd', 
+              border: '1px dashed #5bb68c', borderRadius: '12px', marginBottom: '30px' 
+            }}>
+              <p style={{ color: '#555', marginBottom: '15px', fontWeight: '500' }}>
+                궁금한 점이 있으신가요? <br/>
+                <span style={{ fontSize: '0.9rem', color: '#888' }}>로그인하시면 바로 질문을 남기실 수 있습니다.</span>
+              </p>
+              <button 
+                className="submit-btn" 
+                onClick={() => navigate("/login")} // 로그인 페이지 경로에 맞게 수정하세요
+                style={{ padding: '10px 25px' }}
+              >
+                로그인하러 가기
+              </button>
+            </div>
           )}
 
           <div className="qa-list">
             <h3 className="list-title">최근 질문 목록</h3>
-            {currentItems.length > 0 ? (
-              <ul className="list-group">
-                {currentItems.map((q) => (
-                  <li key={q.id} className="list-item">
-                    <div className="q-main" onClick={() => handleItemClick(q)}>
-                      <div>
-                        <span
-                          className={`status-badge ${q.answer ? "done" : "waiting"}`}
-                        >
-                          {q.answer ? "답변완료" : "답변대기"}
-                        </span>
-                        <span className="q-title">
-                          {q.isPrivate ? "🔒 비밀글입니다." : q.title}
-                        </span>
-                      </div>
-                      <span className="q-date">{q.date}</span>
+            <ul className="list-group">
+              {currentItems.map((q) => (
+                <li key={q.id} className="list-item">
+                  <div className="q-main" onClick={() => handleItemClick(q)}>
+                    <div>
+                      <span className={`status-badge ${q.answer ? "done" : "waiting"}`}>{q.answer ? "답변완료" : "답변대기"}</span>
+                      <span className="q-title">{q.isPrivate ? "🔒 비밀글입니다." : q.title}</span>
                     </div>
+                    <span className="q-date">{q.date}</span>
+                  </div>
 
-                    {isStaff && !q.answer && (
-                      <div
-                        className="admin-controls"
-                        style={{ marginTop: "10px" }}
-                      >
-                        <button
-                          className="admin-reply-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            const reply = prompt("운영자 답변을 입력하세요:");
-                            if (reply) handleAdminReply(q.id, reply);
-                          }}
-                        >
-                          답변달기 ({role === "admin" ? "관리자" : "매니저"})
-                        </button>
-                      </div>
-                    )}
+                  {isStaff && !q.answer && (
+                    <button className="admin-reply-btn" onClick={(e) => {
+                      e.stopPropagation();
+                      const reply = prompt("답변 입력:");
+                      if (reply) handleAdminReply(q.id, reply);
+                    }}>답변달기</button>
+                  )}
 
-                    {q.answer && (
-                      <div
-                        className="answer-preview"
-                        style={{
-                          marginTop: "10px",
-                          background: "#f9f9f9",
-                          padding: "10px",
-                        }}
-                      >
-                        <p>ㄴ Re: {q.answer}</p>
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="no-data">등록된 질문이 없습니다.</p>
-            )}
+                  {/* ✅ 중복 없는 깔끔한 답변 출력 로직 */}
+                  {q.answer && (
+                    <div className="answer-preview" style={{ marginTop: "10px", background: "#f9f9f9", padding: "10px", borderRadius: "4px" }}>
+                      {(isStaff || !q.isPrivate) ? (
+                        <p style={{ margin: 0, color: "#333" }}>ㄴ Re: {q.answer}</p>
+                      ) : (
+                        <p style={{ margin: 0, color: "#999", fontSize: "0.85rem" }}>
+                          ㄴ 🔒 비밀 답변입니다. (클릭하여 본인 확인 후 확인 가능)
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
 
             {totalPages > 1 && (
               <div className="pagination">
                 {Array.from({ length: totalPages }, (_, i) => (
-                  <button
-                    key={i + 1}
-                    onClick={() => setCurrentPage(i + 1)}
-                    className={currentPage === i + 1 ? "active" : ""}
-                  >
-                    {i + 1}
-                  </button>
+                  <button key={i+1} onClick={() => setCurrentPage(i+1)} className={currentPage === i+1 ? "active" : ""}>{i+1}</button>
                 ))}
               </div>
             )}
@@ -291,26 +208,21 @@ const QnA = () => {
         </div>
       )}
 
+      {/* 비밀번호 확인 모달 (기존과 동일) */}
       {viewingId && (
         <div className="modal-overlay">
           <div className="pwd-modal">
-            <h4>비밀번호 확인</h4>
-            <label htmlFor="pwd-check" style={{ display: "none" }}>
-              비밀번호 입력
-            </label>
-            <input
-              id="pwd-check"
-              type="password"
-              maxLength={4}
-              value={checkPwd}
-              onChange={(e) => setCheckPwd(e.target.value)}
-              autoFocus
-            />
+            <h4>🔒 비밀번호 확인</h4>
+            <input type="password" maxLength={4} value={checkPwd} onChange={(e) => setCheckPwd(e.target.value)} autoFocus />
             <div className="modal-btns">
-              <button onClick={() => setViewingId(null)}>취소</button>
-              <button className="confirm-btn" onClick={verifyPassword}>
-                확인
-              </button>
+              <button onClick={() => { setViewingId(null); setCheckPwd(""); }}>취소</button>
+              <button className="confirm-btn" onClick={() => {
+                const target = questions.find((q) => q.id === viewingId);
+                if (target?.password === checkPwd) {
+                  alert(`[내용]\n${target.content}\n\n[답변]\n${target.answer || "아직 답변이 없습니다."}`);
+                  setViewingId(null); setCheckPwd("");
+                } else { alert("비밀번호 불일치"); }
+              }}>확인</button>
             </div>
           </div>
         </div>

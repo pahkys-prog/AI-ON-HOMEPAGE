@@ -1,20 +1,24 @@
 .gallery-section {
-  padding: 100px 20px;
+  padding: 80px 20px;
   text-align: center;
 }
+
 
 .frame-container {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 30px;
   flex-wrap: wrap;
-  margin-top: 50px;
+  max-width: 1200px;
+  margin: 50px auto 0 auto;
 }
 
 .frame-wrapper {
+  flex:0 0 320px;
   position: relative; /* 자식인 gif-inside의 기준점 */
-  width: 350px;       /* 액자 크기에 맞게 조절 */
-  height: 500px
+  max-width: 320px;       /* 액자 크기에 맞게 조절 */
+  max-height: 480px;      /* 액자 크기에 맞게 조절 */
+  box-sizing: border-box;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
@@ -26,6 +30,7 @@
 .frame-img {
   width: 100%;
   height: auto;
+  box-sizing: border-box;
   display: block;
   z-index: 2; /* 액자가 GIF보다 위에 있도록 설정 (또는 반대로) */
   position: relative;

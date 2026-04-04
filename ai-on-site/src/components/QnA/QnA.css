@@ -2,7 +2,7 @@
 .qna-section {
   padding: 80px 20px;
   max-width: 800px; /* 폭 고정 */
-  margin: 40px auto !important; /* 중앙 정렬 강제 */
+  margin: 40px auto; /* 중앙 정렬 강제 */
   box-sizing: border-box;
 }
 
@@ -92,8 +92,8 @@
 
 /* 기존 .qa-form button 대신 클래스별로 명확히 지정 */
 .submit-btn {
-  background-color: #5bb68c !important; /* 무조건 녹색 */
-  color: white !important;
+  background-color: #5bb68c; /* 무조건 녹색 */
+  color: white;
   padding: 10px 25px;
   border-radius: 6px;
   border: none;
@@ -102,8 +102,8 @@
 }
 
 .close-btn {
-  background-color: #eeeeee !important; /* 무조건 회색 */
-  color: #666666 !important;
+  background-color: #eeeeee; /* 무조건 회색 */
+  color: #666666;
   padding: 10px 25px;
   border-radius: 6px;
   border: none;
@@ -118,7 +118,7 @@
 }
 
 .close-btn:hover {
-  background-color: #ddd !important;
+  background-color: #ddd;
 }
 .submit-btn:hover {
   filter: brightness(0.9);
@@ -201,9 +201,9 @@
 
 /* 현재 선택된 페이지 번호 스타일 */
 .pagination button.active {
-  background-color: #5bb68c !important; /* ✅ 브랜드 컬러 적용 */
-  color: white !important;
-  border-color: #5bb68c !important;
+  background-color: #5bb68c; /* ✅ 브랜드 컬러 적용 */
+  color: white;
+  border-color: #5bb68c;
   font-weight: bold;
 }
 

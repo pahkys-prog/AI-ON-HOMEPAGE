@@ -73,7 +73,7 @@ export default function Header() {
                   <span className="user-email">{user.email}</span>
                 )}
 
-                <button className="logout-btn" onClick={handleLogout}>
+                <button className="Hlogout-btn" onClick={handleLogout}>
                   로그아웃
                 </button>
               </>

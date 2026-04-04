@@ -20,16 +20,13 @@ const Gallery = () => {
   ];
 
   return (
-    <section className="gallery-section layout-center">
-      <h1 className="section-title">AI Art Gallery</h1>
-      <div className="copyright-alert-banner">
+    <section className="gallery-section">
+      <h1 className="section-title">AI Art Gallery</h1>     
         <p>
-          <span className="icon">⚠️</span>본 갤러리의 모든 작품은 저작권법의
-          보호를 받습니다.
-          <strong>무단 캡처, 복제 및 AI 학습용 활용</strong>은 엄격히 금지되며,
-          위반 시 법적 책임을 물을 수 있습니다.
+          <span className="icon">✨</span> 화면을 클릭해 보세요. 
+          <strong> 더 많은 작품과 정보</strong>를 경험하실 수 있습니다.
         </p>
-      </div>
+   
       <div className="frame-container">
         {galleryItems.map((item) => (
           <div

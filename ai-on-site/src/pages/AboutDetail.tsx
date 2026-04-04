@@ -38,7 +38,7 @@ const AboutDetail = () => {
 
       {/* 3. 주요 교육 분야 (Grid 레이아웃) */}
       <section className="about-section">
-        <h2 className="section-title">주요 교육 분야</h2>
+        <h2 className="about-section-title">주요 교육 분야</h2>
         <div className="category-grid">
           <div className="category-item">
             <span className="num">01</span>
@@ -68,7 +68,7 @@ const AboutDetail = () => {
 
       {/* 4. 적합한 대상 (문의 유도의 핵심 ⭐) */}
       <section className="about-section target-section">
-        <h2 className="section-title">이런 곳에 적합합니다</h2>
+        <h2 className="about-section-title">이런 곳에 적합합니다</h2>
         <ul className="target-list">
           <li>
             🏢 <strong>공공기관 및 평생교육</strong> 프로그램
@@ -90,7 +90,7 @@ const AboutDetail = () => {
 
       {/* 5. 실제 진행 방식 (Step 구조) */}
       <section className="about-section">
-        <h2 className="section-title">진행 방식</h2>
+        <h2 className="about-section-title">진행 방식</h2>
         <div className="step-container">
           <div className="step">
             <span>1</span>

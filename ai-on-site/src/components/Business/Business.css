@@ -22,7 +22,9 @@
   padding: 12px 25px;
   border: 1px solid #ddd;
   background: white;
+  color: #333;
   border-radius: 30px;
+  box-shadow: #ddd 0px 2px 5px;
   cursor: pointer;
   font-weight: 600;
   transition: 0.3s;

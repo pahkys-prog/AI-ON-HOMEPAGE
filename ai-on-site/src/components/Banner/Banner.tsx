@@ -28,7 +28,7 @@ const snsData = [
     name: "Blog",
     img: blog,
     color: "#F4D02D",
-    link: "https://blog.naver.com",
+    link: "https://blog.naver.com/0817future/224222231216",
   },
   {
     id: 3,
@@ -56,7 +56,7 @@ const snsData = [
     name: "Location",
     img: location,
     color: "#3766b0",
-    link: "...",
+    link: "https://map.naver.com/p/entry/place/2070346762?placePath=/home?entry=plt&from=map&fromPanelNum=1&additionalHeight=76&timestamp=202604031305&locale=ko&svcName=map_pcv5&searchType=place&lng=126.5266586&lat=33.5152458&c=15.00,0,0,0,dh",
   },
 ];
 
