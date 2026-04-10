@@ -3,23 +3,16 @@ import { useLocation } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import "./Contact.css";
-
-// ✅ 실제 사용할 ContactForm import
 import ContactForm from "./ContactForm";
 
 const Contact = () => {
   const location = useLocation();
-
   const { user } = useAuthStore();
   const navigate = useNavigate();
 
-  
-  // 1. 초기값 설정 (ESLint 경고 해결을 위해 선언부에서 바로 체크)
   const [isOpen, setIsOpen] = useState(location.state?.openContact || false);
 
   useEffect(() => {
-    // 2. 스크롤 이동 로직
-
     if (location.state?.openContact) {
       const contactSection = document.getElementById("contact");
       if (contactSection) {
@@ -28,17 +21,23 @@ const Contact = () => {
     }
   }, [location.state]);
 
+  // ✅ 로그인이 안 된 경우 로그인 페이지로 이동시키는 헬퍼 함수
+  const handleLoginRedirect = () => {
+    if (!user) {
+      alert("문의 등록을 위해 로그인이 필요합니다.");
+      navigate("/login");
+      return true;
+    }
+    return false;
+  };
+
   return (
-    <section id="contact" className="contact-section ">
+    <section id="contact" className="contact-section">
       <div className="contact-header">
         <button
           className="contact-title-btn"
           onClick={() => {
-            if (!user) {
-              alert("로그인이 필요한 서비스입니다.");
-              navigate("/login");
-              return;
-            }
+            // ✅ [변경] 이제 로그인 체크 없이 누구나 창을 열 수 있습니다.
             setIsOpen(!isOpen);
           }}
         >
@@ -49,27 +48,22 @@ const Contact = () => {
 
       {isOpen && (
         <div className="contact-container animate-fade-in">
-          {/* 상단 안내 */}
           <div className="contact-info-header">
             <p>궁금하신 점이 있다면 언제든 문의해 주세요.</p>
             <div className="info-details">
-              <span>
-                <strong>Email.</strong> echomuse78@gmail.com
-              </span>
-              <br />
-              <span>
-                <strong>Tel.</strong> 010-9839-6655
-              </span>
-              <br />
-              <span>
-                <strong>Time.</strong> 평일 09:00 ~ 18:00
-              </span>
+              <span><strong>Email.</strong> echomuse78@gmail.com</span><br />
+              <span><strong>Tel.</strong> 010-9839-6655</span><br />
+              <span><strong>Time.</strong> 평일 09:00 ~ 18:00</span>
             </div>
           </div>
 
-          {/* ✅ 핵심: 실제 Firebase 저장은 이 ContactForm 내부에서 handleSubmit이 처리해야 합니다. */}
-          {/* 하단의 '문의 보내기' 버튼이 form 바깥에 있다면, form에 id를 주고 연결해야 합니다. */}
-          <ContactForm id="contact-form-element" />
+          {/* ✅ [변경] 비로그인 유저가 폼을 클릭하면 로그인을 유도하도록 래퍼 추가 가능 */}
+          <div onClick={() => !user && handleLoginRedirect()}
+               style={{ cursor: !user ? "pointer" : "default" }}>
+            <ContactForm 
+              id="contact-form-element" 
+            />
+          </div>
 
           <div className="contact-form-footer">
             <div className="contact-button-group">
@@ -80,14 +74,20 @@ const Contact = () => {
               >
                 닫기
               </button>
-              {/* ✅ form 외부의 버튼이 제출을 수행하려면 form의 id와 연결(form="...")해야 합니다. */}
+
+              {/* ✅ [변경] 버튼을 활성화해두되, 클릭 시 로그인 여부를 체크합니다. */}
               <button
-                type="submit"
-                form="contact-form-element"
+                type="button" // submit 대신 button으로 바꾸고 로직 제어
                 className="c-submit-btn"
-                disabled={!user}
+                onClick={() => {
+                  if (!handleLoginRedirect()) {
+                    // 로그인 된 상태라면 폼 제출 실행
+                    const form = document.getElementById("contact-form-element") as HTMLFormElement;
+                    form?.requestSubmit(); 
+                  }
+                }}
               >
-                문의 보내기
+                {user ? "문의 보내기" : "로그인 후 보내기"}
               </button>
             </div>
           </div>

@@ -117,7 +117,7 @@ const QnA = () => {
     <section className="qna-section">
       <div className="qna-header">
         <button className="qa-title-btn" onClick={handleToggleOpen}>Q&A</button>
-        <p className="qa-subtitle">로그인 없이도 문의 목록을 확인할 수 있습니다.</p>
+        <p className="qa-subtitle">클릭하시면 질문을 확인할 수 있습니다.</p>
       </div>
 
       {isOpen && (

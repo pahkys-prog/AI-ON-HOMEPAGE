@@ -1,7 +1,9 @@
 .about-section {
   width: 100%;
-  padding: 100px 0;
+  padding: 60px 0;
+  border-radius: 20px;
   background-color: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 .about-container {
@@ -43,7 +45,7 @@
 }
 
 .about-image img {
-  width: 60%;
+  width: 80%;
   border-radius: 20px;
   z-index: 2;
   position: relative;
