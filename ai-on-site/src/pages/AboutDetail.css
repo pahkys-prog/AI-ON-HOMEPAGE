@@ -8,6 +8,7 @@
 /* 헤드라인 */
 .about-header {
   text-align: center;
+  margin-top: 40px;
   margin-bottom: 80px;
 }
 
@@ -29,10 +30,8 @@
 
 /* 인트로 카드 */
 .about-intro {
-  margin-bottom: 80px;
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 80px auto;
+  max-width: 1100px; 
 }
 
 .intro-card {
@@ -53,8 +52,9 @@
 .about-section {
   margin-bottom: 100px;
   max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 40px;
+  margin: 120px auto;
+  box-sizing: border-box;
 }
 
 .about-section-title {
@@ -67,7 +67,7 @@
 /* 교육 분야 그리드 */
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr) );
   gap: 20px;
 }
 
@@ -79,7 +79,9 @@
   transition: transform 0.3s;
 }
 
-.category-item:hover { transform: translateY(-5px); }
+.category-item:hover {
+  transform: translateY(-5px);
+}
 
 .category-item .num {
   font-size: 14px;
@@ -87,7 +89,10 @@
   font-weight: 800;
 }
 
-.category-item h3 { margin: 15px 0; font-size: 20px; }
+.category-item h3 {
+  margin: 15px 0;
+  font-size: 20px;
+}
 
 /* 적합한 대상 */
 .target-section {

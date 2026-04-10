@@ -1,7 +1,7 @@
 /* 범용적인 이름 대신 독자적인 이름을 사용합니다 */
 .layout-center {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto ;
   padding: 0 10px;
   box-sizing: border-box;

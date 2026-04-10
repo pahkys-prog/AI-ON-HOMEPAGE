@@ -33,10 +33,10 @@ export default function Header() {
           <img src={logo} className="logo" alt="AI-ON 로고" />
         </Link>
         <nav className="nav-menu desktop-only">
-          <Link to="/about" className="nav-item">
+          <Link to="/about-detail" className="nav-item">
             About
           </Link>
-
+          
           {/* 드롭다운을 가진 메뉴 */}
           <div className="nav-item-dropdown">
             <span className="nav-item">Business ▾</span>
